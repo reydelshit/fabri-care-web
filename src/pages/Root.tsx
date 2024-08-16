@@ -1,3 +1,4 @@
+import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Toaster } from '@/components/ui/toaster';
 import Reports from '@/pages/Reports';
@@ -9,53 +10,36 @@ const Root = () => {
 
   const [showSidebar, setShowSidebar] = useState(false);
 
-  const handleLogout = () => {
-    localStorage.removeItem('isLoggedIn_QR');
-    localStorage.removeItem('role');
-    window.location.href = '/login';
-  };
   return (
-    <div className="flex h-dvh w-dvw items-center justify-center overflow-y-hidden">
-      <div className="mx-auto flex h-full w-full gap-4">
-        <div className="relative flex h-screen w-[250px] flex-col border-r-[1px] p-2 pt-[4rem]">
+    <div className="flex h-full w-dvw flex-col justify-center overflow-y-hidden">
+      <Header />
+      <div className="mx-auto flex h-screen w-full flex-col bg-gray-300">
+        <div className="relative flex h-[6rem] w-full flex-row items-center gap-8 p-4">
           <Link
-            className={`p-2 hover:text-red-500 ${params.pathname === '/' ? 'bg-orange-500 text-white' : ''}`}
+            className={`p-2 hover:font-bold hover:text-black ${params.pathname === '/' ? 'border-b-2 border-black font-bold text-black' : ''}`}
             to="/"
-          >
-     Reports
-          </Link>
-
-          <Link
-            className={`p-2 hover:text-red-500 ${params.pathname === '/feedbacks' ? 'bg-orange-500 text-white' : ''}`}
-            to="/feedbacks"
-          >
-    Feedbacks
-          </Link>
-          <Link
-            className={`p-2 hover:text-red-500 ${params.pathname === '/users' ? 'bg-orange-500 text-white' : ''}`}
-            to="/users"
-          >
-            Users
-          </Link>
-          <Link
-            className={`p-2 hover:text-red-500 ${params.pathname === '/Reports' ? 'bg-orange-500 text-white' : ''}`}
-            to="/Reports"
           >
             Reports
           </Link>
 
-
-          <Button
-            onClick={handleLogout}
-            className="absolute bottom-2 left-2 right-2"
+          <Link
+            className={`p-2 hover:font-bold hover:text-black ${params.pathname === '/feedbacks' ? 'border-b-2 border-black font-bold text-black' : ''}`}
+            to="/feedbacks"
           >
-            Logout
-          </Button>
+            Feedbacks
+          </Link>
+          <Link
+            className={`p-2 hover:font-bold hover:text-black ${params.pathname === '/users' ? 'border-b-2 border-black font-bold text-black' : ''}`}
+            to="/users"
+          >
+            Users
+          </Link>
         </div>
 
-        <div className="h-full w-full">
-          {/* This is where the child routes get rendered */}
-          {params.pathname === '/' ? <Reports /> : <Outlet />}
+        <div className="flex h-full w-full items-start justify-center">
+          <div className="h-[90%] w-[90%] rounded-xl bg-white p-4">
+            {params.pathname === '/' ? <Reports /> : <Outlet />}
+          </div>
         </div>
       </div>
 
