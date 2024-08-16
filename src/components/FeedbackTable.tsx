@@ -1,74 +1,90 @@
-import { useEffect, useMemo, useState } from 'react';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Button } from '@mui/material';
+import axios from 'axios';
 import {
   MaterialReactTable,
-  MRT_Row,
   MRT_TableInstance,
   useMaterialReactTable,
   type MRT_ColumnDef,
   type MRT_RowSelectionState,
 } from 'material-react-table';
-import { Button } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { useEffect, useMemo, useState } from 'react';
 
 //data definitions...
-interface Person {
-  userId: string;
-  firstName: string;
-  lastName: string;
-  age: number;
-  address: string;
-  city: string;
-  state: string;
+interface Feedbacks {
+  feedback_id: number;
+  feedback_message: string;
+  feedback_rate: string;
+  feedback_date: string;
+  fullname: string;
 }
 //end
 
-const data = [
-  {
-    userId: '3f25309c-8fa1-470f-811e-cdb082ab9017', //we'll use this as a unique row id
-    firstName: 'Dylan',
-    lastName: 'Murray',
-    age: 22,
-    address: '261 Erdman Ford',
-    city: 'East Daphne',
-    state: 'Kentucky',
-  }, //data definitions...
-  {
-    userId: 'be731030-df83-419c-b3d6-9ef04e7f4a9f',
-    firstName: 'Raquel',
-    lastName: 'Kohler',
-    age: 18,
-    address: '769 Dominic Grove',
-    city: 'Columbus',
-    state: 'Ohio',
-  },
-  //end
-];
+// const data = [
+//   {
+//     userId: '3f25309c-8fa1-470f-811e-cdb082ab9017', //we'll use this as a unique row id
+//     firstName: 'Dylan',
+//     lastName: 'Murray',
+//     age: 22,
+//     address: '261 Erdman Ford',
+//     city: 'East Daphne',
+//     state: 'Kentucky',
+//   }, //data definitions...
+//   {
+//     userId: 'be731030-df83-419c-b3d6-9ef04e7f4a9f',
+//     firstName: 'Raquel',
+//     lastName: 'Kohler',
+//     age: 18,
+//     address: '769 Dominic Grove',
+//     city: 'Columbus',
+//     state: 'Ohio',
+//   },
+//   //end
+// ];
 
 const FeedbackTable = () => {
-  const columns = useMemo<MRT_ColumnDef<Person>[]>(
+  const [data, setData] = useState<Feedbacks[]>([]);
+
+  const fetchFeedbacks = () => {
+    axios
+      .get(`${import.meta.env.VITE_SERVER_LINK}/feedback.php`)
+      .then((res) => {
+        console.log(res.data);
+        setData(res.data);
+      });
+  };
+
+  useEffect(() => {
+    fetchFeedbacks();
+  }, []);
+
+  const columns = useMemo<MRT_ColumnDef<Feedbacks>[]>(
     () => [
       {
-        accessorKey: 'firstName',
+        accessorKey: 'fullname',
         header: 'Full Name',
       },
 
       {
-        id: 'submissionTime', // use 'id' instead of 'accessorKey' for columns not in the data
+        accessorKey: 'feedback_date',
         header: 'Submission Time',
-        Cell: () => new Date().toLocaleString(), // This will show the current time
       },
       {
-        id: 'feedback', // use 'id' instead of 'accessorKey' for columns not in the data
-        header: 'Feedbacks',
-        Cell: () => <Button>View Feedbacks</Button>,
+        accessorKey: 'feedback_rate',
+        header: 'Feedbacks Rate',
+      },
+
+      {
+        accessorKey: 'feedback_message',
+        header: 'Feedbacks Message',
       },
     ],
-    [], //end
+    [],
   );
 
   const handleDeleteRows = (
     rows: MRT_RowSelectionState,
-    table: MRT_TableInstance<Person>,
+    table: MRT_TableInstance<Feedbacks>,
   ) => {
     const selectedRowIds = Object.keys(rows);
     const isAllSelected = table.getIsAllRowsSelected();
@@ -76,29 +92,55 @@ const FeedbackTable = () => {
     if (isAllSelected) {
       console.log(
         'Deleting all rows:',
-        data.map((row) => row.userId),
+        data.map((row) => row.feedback_id),
       );
-      // Implement your delete all logic here
-      // For example:
-      // setData([]);
+
+      const feedbackIds = data.map((row) =>
+        parseInt(row.feedback_id.toString(), 10),
+      );
+
+      feedbackIds.forEach((id) => {
+        axios
+          .delete(`${import.meta.env.VITE_SERVER_LINK}/feedback.php`, {
+            data: {
+              feedback_id: id,
+            },
+          })
+          .then((res) => {
+            console.log(`Feedback ID ${id} deleted:`, res.data);
+            fetchFeedbacks();
+          })
+          .catch((error) => {
+            console.error(`Error deleting feedback ID ${id}:`, error);
+          });
+      });
     } else {
       console.log('Deleting selected rows:', selectedRowIds);
-      // Implement your delete selected logic here
-      // For example:
-      // setData(prevData => prevData.filter(row => !selectedRowIds.includes(row.userId)));
+
+      console.log(selectedRowIds[0]);
+
+      axios
+        .delete(`${import.meta.env.VITE_SERVER_LINK}/feedback.php`, {
+          data: {
+            feedback_id: selectedRowIds[0],
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          fetchFeedbacks();
+        });
     }
   };
 
-  //optionally, you can manage the row selection state yourself
   const [rowSelection, setRowSelection] = useState<MRT_RowSelectionState>({});
 
   const table = useMaterialReactTable({
     columns,
     data,
     enableRowSelection: true,
-    getRowId: (row) => row.userId, //give each row a more useful id
-    onRowSelectionChange: setRowSelection, //connect internal row selection state to your own
-    state: { rowSelection }, //pass our managed row selection state to the table to use
+    getRowId: (row) => row.feedback_id.toString(),
+    onRowSelectionChange: setRowSelection,
+    state: { rowSelection },
     renderTopToolbarCustomActions: ({ table }) => (
       <Button
         color="error"
