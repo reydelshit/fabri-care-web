@@ -37,7 +37,7 @@ const Root = () => {
         </div>
 
         <div className="flex h-full w-full items-start justify-center">
-          <div className="h-[90%] w-[90%] rounded-xl bg-white p-4">
+          <div className="h-[80%] w-[90%] rounded-xl bg-white p-4">
             {params.pathname === '/' ? <Reports /> : <Outlet />}
           </div>
         </div>

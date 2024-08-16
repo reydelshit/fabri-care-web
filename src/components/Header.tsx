@@ -13,7 +13,7 @@ const Header = () => {
         <img
           src={fabriLogo}
           alt="logo"
-          className="h-[8rem] w-[8rem] rounded-xl"
+          className="h-[6rem] w-[6rem] rounded-xl"
         />
         <h1 className="text-4xl font-bold">FabriCare</h1>
       </div>
