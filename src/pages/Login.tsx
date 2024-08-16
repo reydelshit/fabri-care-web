@@ -1,4 +1,4 @@
-// import Logo from '@/assets/logo.jpg';
+import Logo from '@/assets/logo-fabri.png';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
@@ -42,11 +42,14 @@ export default function Login() {
 
   return (
     <div className="flex h-screen w-full flex-col items-center justify-center text-center">
-      <div className="flex h-[33rem] w-[30rem] flex-col items-center rounded-xl border-[1px] p-4 shadow-md">
-        {/* <img src={Logo} alt="logo" className="my-4 h-[15rem] w-[15rem]" /> */}
+      <div className="flex h-fit w-[30rem] flex-col items-center rounded-xl border-[1px] p-4 shadow-md">
+        <img
+          src={Logo}
+          alt="logo"
+          className="my-4 h-[10rem] w-[10rem] rounded-lg"
+        />
         <h1 className="my-2 font-semibold">ADMIN</h1>
 
-        <h1 className="my-2 font-semibold">ENTER CREDENTIALS TO LOGIN</h1>
         <form
           onSubmit={handleLogin}
           className="flex w-full flex-col items-center justify-center"
@@ -64,7 +67,7 @@ export default function Login() {
             name="password"
             onChange={handleChange}
           />
-          <Button className="w-[80%]" type="submit">
+          <Button className="my-4 w-[80%] bg-[#DEAC80]" type="submit">
             Login
           </Button>
         </form>

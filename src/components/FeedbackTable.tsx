@@ -44,49 +44,23 @@ const data = [
   //end
 ];
 
-const UsersTable = () => {
+const FeedbackTable = () => {
   const columns = useMemo<MRT_ColumnDef<Person>[]>(
     () => [
       {
         accessorKey: 'firstName',
-        header: 'First Name',
+        header: 'Full Name',
       },
+
       {
-        accessorKey: 'lastName',
-        header: 'Last Name',
-      },
-      {
-        accessorKey: 'age',
-        header: 'Age',
-      },
-      {
-        accessorKey: 'address',
-        header: 'Address',
-      },
-      {
-        id: 'attachments', // use 'id' instead of 'accessorKey' for columns not in the data
-        header: 'Attachments',
-        Cell: () => <Button>View Attachments</Button>,
-      },
-      {
-        id: 'customTime',
-        header: 'Time and Date',
+        id: 'submissionTime', // use 'id' instead of 'accessorKey' for columns not in the data
+        header: 'Submission Time',
         Cell: () => new Date().toLocaleString(), // This will show the current time
       },
       {
-        id: 'staticStatus',
-        header: 'Status',
-        Cell: () => 'Active', // This will show 'Active' for all rows
-      },
-      {
-        id: 'actions',
-        header: 'Actions',
-        Cell: () => (
-          <>
-            <Button>Edit</Button>
-            <Button>Delete</Button>
-          </>
-        ),
+        id: 'feedback', // use 'id' instead of 'accessorKey' for columns not in the data
+        header: 'Feedbacks',
+        Cell: () => <Button>View Feedbacks</Button>,
       },
     ],
     [], //end
@@ -147,4 +121,4 @@ const UsersTable = () => {
   return <MaterialReactTable table={table} />;
 };
 
-export default UsersTable;
+export default FeedbackTable;

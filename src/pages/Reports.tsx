@@ -36,7 +36,7 @@ const Reports = () => {
   return (
     <div className="h-full w-full">
       <div className="flex h-[4rem] w-full items-center border-b-2 px-4">
-        <h1>Reports</h1>
+        <h1 className="text-2xl font-bold">Reports</h1>
       </div>
 
       <div className="flex gap-4">
@@ -67,17 +67,16 @@ const Reports = () => {
                   fontSize={10}
                   tickLine={false}
                   axisLine={false}
-                  tickFormatter={(value) => `$${value}`}
+                  tickFormatter={(value) => `${value}`}
                 />
                 <Bar
                   dataKey="total"
-                  fill="currentColor"
+                  fill="#FACC15"
                   radius={[4, 4, 0, 0]}
                   className="fill-primary"
                 />
               </BarChart>
             </ResponsiveContainer>{' '}
-            92+
           </span>
         </div>
 

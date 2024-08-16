@@ -8,7 +8,6 @@ import Login from './pages/Login.tsx';
 import Root from './pages/Root.tsx';
 import Users from './pages/Users.tsx';
 
-
 const router = createBrowserRouter([
   {
     path: '/',
@@ -22,24 +21,20 @@ const router = createBrowserRouter([
         path: 'users',
         element: <Users />,
       },
-
-      {
-        path: 'form',
-        element: <FeedbackForm />,
-      },
-
-  
     ],
   },
   {
     path: '/login',
     element: <Login />,
   },
+  {
+    path: '/forms',
+    element: <FeedbackForm />,
+  },
 ]);
-
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
- <RouterProvider router={router} />
+    <RouterProvider router={router} />
   </React.StrictMode>,
-)
+);
