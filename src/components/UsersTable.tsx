@@ -8,6 +8,7 @@ import {
   type MRT_ColumnDef,
   type MRT_RowSelectionState,
 } from 'material-react-table';
+import moment from 'moment';
 import { useEffect, useMemo, useState } from 'react';
 
 //data definitions...
@@ -92,6 +93,12 @@ const UsersTable = () => {
           </Button>
         ),
       },
+
+      {
+        accessorKey: 'created_at',
+        header: 'Account Created At',
+        Cell: ({ cell }) => moment(cell.getValue<string>()).format('LL'),
+      },
     ],
     [],
   );
@@ -108,8 +115,37 @@ const UsersTable = () => {
         'Deleting all rows:',
         data.map((row) => row.user_Id),
       );
+
+      const userIDS = data.map((row) => parseInt(row.user_Id.toString(), 10));
+
+      userIDS.forEach((id) => {
+        axios
+          .delete(`${import.meta.env.VITE_SERVER_LINK}/users.php`, {
+            data: {
+              user_Id: id,
+            },
+          })
+          .then((res) => {
+            console.log(`Feedback ID ${id} deleted:`, res.data);
+            feetchUsers();
+          })
+          .catch((error) => {
+            console.error(`Error deleting feedback ID ${id}:`, error);
+          });
+      });
     } else {
       console.log('Deleting selected rows:', selectedRowIds);
+
+      axios
+        .delete(`${import.meta.env.VITE_SERVER_LINK}/users.php`, {
+          data: {
+            user_Id: selectedRowIds[0],
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          feetchUsers();
+        });
     }
   };
 

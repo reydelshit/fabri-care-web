@@ -8,6 +8,7 @@ import {
   type MRT_ColumnDef,
   type MRT_RowSelectionState,
 } from 'material-react-table';
+import moment from 'moment';
 import { useEffect, useMemo, useState } from 'react';
 
 //data definitions...
@@ -67,7 +68,8 @@ const FeedbackTable = () => {
 
       {
         accessorKey: 'feedback_date',
-        header: 'Submission Time',
+        header: 'Submission Date',
+        Cell: ({ cell }) => moment(cell.getValue<string>()).format('LL'),
       },
       {
         accessorKey: 'feedback_rate',
