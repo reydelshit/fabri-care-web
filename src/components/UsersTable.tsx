@@ -147,7 +147,7 @@ const UsersTable = () => {
 
       {showAttachments && (
         <div className="absolute left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-black bg-opacity-75">
-          <div className="h-full max-h-[60%] w-[60%] rounded-lg bg-white p-4">
+          <div className="h-full max-h-[60%] w-[40%] rounded-lg bg-white p-4">
             <div className="flex w-full justify-end">
               <Button onClick={() => setShowAttachments(false)}>CLose</Button>
             </div>
