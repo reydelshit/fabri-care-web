@@ -33,12 +33,12 @@ const FeedbackForm = () => {
   };
 
   return (
-    <div className="flex h-dvh w-dvw items-center justify-center border-2">
-      <div className="h-fit w-[40rem] rounded-xl border-2 p-4 shadow-lg">
+    <div className="flex h-dvh w-dvw items-center justify-center px-4 md:px-0">
+      <div className="h-fit w-full rounded-xl p-4 shadow-lg md:w-[40rem]">
         <h1 className="text-2xl font-bold">Feedack Form</h1>
 
         <form onSubmit={handleFeedbackSubmit}>
-          <div className="flex w-full gap-2">
+          <div className="flex w-full flex-col gap-2 md:flex-row">
             <div className="w-full">
               {' '}
               <Label> Firstname</Label>
@@ -55,7 +55,7 @@ const FeedbackForm = () => {
             <h1 className="my-2 font-semibold">
               Please provide your feedback on the effectiveness of our product
             </h1>
-            <div className="flex w-full items-center justify-center gap-4">
+            <div className="grid w-full grid-cols-3 place-content-start place-items-center items-center justify-center gap-2 md:flex md:flex-row md:gap-4">
               {['Excellent', 'Superb', 'Good', 'Average', 'Poor'].map(
                 (option) => (
                   <span key={option} className="flex items-center gap-2">
