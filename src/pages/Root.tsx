@@ -1,5 +1,4 @@
 import Header from '@/components/Header';
-import { Button } from '@/components/ui/button';
 import { Toaster } from '@/components/ui/toaster';
 import Reports from '@/pages/Reports';
 import { useState } from 'react';
@@ -11,7 +10,7 @@ const Root = () => {
   const [showSidebar, setShowSidebar] = useState(false);
 
   return (
-    <div className="flex h-full w-dvw flex-col justify-center overflow-y-hidden">
+    <div className="relative flex h-full w-dvw flex-col justify-center overflow-y-hidden">
       <Header />
       <div className="mx-auto flex h-screen w-full flex-col bg-gray-300">
         <div className="relative flex h-[6rem] w-full flex-row items-center gap-8 p-4">
@@ -37,7 +36,7 @@ const Root = () => {
         </div>
 
         <div className="flex h-full w-full items-start justify-center">
-          <div className="h-[80%] w-[90%] rounded-xl bg-white p-4">
+          <div className="h-full max-h-[80%] w-[90%] rounded-xl bg-white p-4">
             {params.pathname === '/' ? <Reports /> : <Outlet />}
           </div>
         </div>
