@@ -9,7 +9,7 @@ import {
 
 const Header = () => {
   const handleLogout = () => {
-    localStorage.removeItem('isLoggedIn_QR');
+    localStorage.removeItem('isLoggedIn_FabriCare');
     localStorage.removeItem('role');
     window.location.href = '/login';
   };
