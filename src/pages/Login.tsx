@@ -22,7 +22,7 @@ export default function Login() {
     if (loginDetails.username === u && loginDetails.password === p) {
       alert('Login successful');
 
-      localStorage.setItem('isLoggedIn_QR', 'true');
+      localStorage.setItem('isLoggedIn_FabriCare', 'true');
       localStorage.setItem('role', 'admin');
 
       window.location.href = '/';

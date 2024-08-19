@@ -1,5 +1,12 @@
 import fabriLogo from '@/assets/logo-fabri.png';
 import { Button } from './ui/button';
+
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+
 const Header = () => {
   const handleLogout = () => {
     localStorage.removeItem('isLoggedIn_QR');
@@ -19,21 +26,31 @@ const Header = () => {
       </div>
 
       <div className="flex">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          color="#DEAC80"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="size-12 cursor-pointer"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
-          />
-        </svg>
+        <Popover>
+          <PopoverTrigger>
+            {' '}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              color="#DEAC80"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-12 cursor-pointer"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+              />
+            </svg>
+          </PopoverTrigger>
+          <PopoverContent>
+            <div className="flex flex-col gap-4 p-4">
+              <Button onClick={handleLogout}>Logout</Button>
+            </div>
+          </PopoverContent>
+        </Popover>
       </div>
 
       {/* <Button onClick={handleLogout}>Logout</Button> */}

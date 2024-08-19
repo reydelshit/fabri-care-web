@@ -7,7 +7,11 @@ import { Link, Outlet, useLocation } from 'react-router-dom';
 const Root = () => {
   const params = useLocation();
 
-  const [showSidebar, setShowSidebar] = useState(false);
+  const stateLogin = localStorage.getItem('isLoggedIn_FabriCare');
+
+  if (!stateLogin) {
+    window.location.href = '/login';
+  }
 
   return (
     <div className="relative flex h-full w-dvw flex-col justify-center overflow-y-hidden">

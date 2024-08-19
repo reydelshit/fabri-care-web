@@ -31,6 +31,11 @@ const router = createBrowserRouter([
     path: '/forms',
     element: <FeedbackForm />,
   },
+
+  {
+    path: '*',
+    element: <div>404 Not Found</div>,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
