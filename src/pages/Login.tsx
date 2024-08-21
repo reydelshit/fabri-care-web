@@ -41,8 +41,8 @@ export default function Login() {
   };
 
   return (
-    <div className="flex h-screen w-full flex-col items-center justify-center text-center">
-      <div className="flex h-fit w-[30rem] flex-col items-center rounded-xl border-[1px] p-4 shadow-md">
+    <div className="flex h-screen w-full flex-col items-center justify-center p-4 text-center">
+      <div className="flex h-fit w-full flex-col items-center rounded-xl border-[1px] p-4 shadow-md md:w-[30rem]">
         <img
           src={Logo}
           alt="logo"

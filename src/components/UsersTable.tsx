@@ -89,7 +89,7 @@ const UsersTable = () => {
               handleShowAttachments(row.original.user_Id);
             }}
           >
-            View Attachments
+            View Uploaded Images
           </Button>
         ),
       },
@@ -149,16 +149,15 @@ const UsersTable = () => {
     }
   };
 
-  //optionally, you can manage the row selection state yourself
   const [rowSelection, setRowSelection] = useState<MRT_RowSelectionState>({});
 
   const table = useMaterialReactTable({
     columns,
     data,
     enableRowSelection: true,
-    getRowId: (row) => row.user_Id, //give each row a more useful id
-    onRowSelectionChange: setRowSelection, //connect internal row selection state to your own
-    state: { rowSelection }, //pass our managed row selection state to the table to use
+    getRowId: (row) => row.user_Id,
+    onRowSelectionChange: setRowSelection,
+    state: { rowSelection },
     renderTopToolbarCustomActions: ({ table }) => (
       <Button
         color="error"
@@ -173,8 +172,8 @@ const UsersTable = () => {
   });
 
   useEffect(() => {
-    console.info({ rowSelection }); //read your managed row selection state
-    console.info(table.getState().rowSelection); //alternate way to get the row selection state
+    console.info({ rowSelection });
+    console.info(table.getState().rowSelection);
   }, [rowSelection]);
 
   return (
