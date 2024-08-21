@@ -226,7 +226,9 @@ const UsersTable = () => {
                     </div>
                   ))
                 ) : (
-                  <h1 className="h-full text-center">No Images Found</h1>
+                  <div className="grid h-[8rem] place-content-center text-center">
+                    No Images Found
+                  </div>
                 )}
               </div>
             </div>
