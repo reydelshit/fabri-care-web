@@ -22,8 +22,8 @@ interface Users {
 
 interface Attachments {
   fullname: string;
-  upload_date: string;
-  upload_longblob: string;
+  image_path: string;
+  image_uploadDate: string;
   user_Id: string;
 }
 
@@ -178,43 +178,62 @@ const UsersTable = () => {
   }, [rowSelection]);
 
   return (
-    <>
+    <div className="block">
       <MaterialReactTable table={table} />
 
       {showAttachments && (
         <div className="absolute left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-black bg-opacity-75">
-          <div className="h-full max-h-[60%] w-[40%] rounded-lg bg-white p-4">
-            <div className="flex w-full justify-end">
-              <Button onClick={() => setShowAttachments(false)}>CLose</Button>
+          <div className="relative h-fit max-h-[60%] w-[40%] overflow-y-scroll rounded-lg bg-white px-4">
+            <div className="sticky top-0 z-20 flex h-[8rem] w-full flex-col items-center justify-center border-b-2 bg-white">
+              <div className="flex w-full flex-row-reverse items-center justify-between">
+                <div className="flex justify-end">
+                  <Button onClick={() => setShowAttachments(false)}>
+                    CLose
+                  </Button>
+                </div>
+
+                <h1 className="text-lg font-bold">
+                  LIST OF IMAGES{' '}
+                  <span className="inline-block uppercase underline">
+                    {attachments.length > 0 ? attachments[0].fullname : ''}
+                  </span>{' '}
+                  UPLOADED
+                </h1>
+              </div>
+
+              <div className="flex h-fit w-full flex-row items-center justify-between">
+                <h1 className="text-md font-semibold">
+                  Number of Images: {attachments.length}
+                </h1>
+              </div>
             </div>
 
-            <div>
-              <h1 className="text-2xl font-bold">
-                LIST OF IMAGES{' '}
-                <span className="inline-block uppercase underline">
-                  {attachments.length > 0 ? attachments[0].fullname : ''}
-                </span>{' '}
-                UPLOADED
-              </h1>
-              {attachments.map((attachment, index) => (
-                <div className="my-2" key={index}>
-                  <div className="flex items-center gap-4">
-                    <h1 className="h-[3rem] w-[3rem] rounded-full bg-[#DEAC80] p-4 text-center font-bold">
-                      {index + 1}
-                    </h1>
-                    <img
-                      className="h-[10rem] w-[10rem] border-2 object-cover"
-                      src={attachment.upload_longblob}
-                      alt="image"
-                    />
-                  </div>
-                </div>
-              ))}
+            <div className="relative flex h-full flex-col items-center justify-center">
+              <div className="flex h-fit w-full flex-col">
+                {attachments.length > 0 ? (
+                  attachments.map((attachment, index) => (
+                    <div className="my-2 border-b-2 pb-2" key={index}>
+                      <div className="flex items-center gap-4">
+                        <h1 className="h-[3rem] w-[3rem] rounded-full bg-[#DEAC80] p-4 text-center font-bold">
+                          {index + 1}
+                        </h1>
+                        <img
+                          className="h-[15rem] w-[15rem] object-cover"
+                          src={`${import.meta.env.VITE_SERVER_LINK}/${attachment.image_path}`}
+                          alt="image"
+                        />
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <h1 className="h-full text-center">No Images Found</h1>
+                )}
+              </div>
             </div>
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

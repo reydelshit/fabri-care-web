@@ -7,7 +7,7 @@ const Users = () => {
         <h1 className="text-2xl font-bold">List of Users</h1>
       </div>
 
-      <div className="my-4">
+      <div className="my-4 h-full">
         <UsersTable />
       </div>
     </div>
