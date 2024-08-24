@@ -6,6 +6,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const handleLogout = () => {
@@ -17,12 +18,14 @@ const Header = () => {
   return (
     <div className="flex h-fit w-full items-center justify-between border-2 p-4 pr-8">
       <div className="flex items-center gap-4">
-        <img
-          src={fabriLogo}
-          alt="logo"
-          className="h-[6rem] w-[6rem] rounded-xl"
-        />
-        <h1 className="text-4xl font-bold">FabriCare</h1>
+        <Link className="flex items-center gap-4" to="/">
+          <img
+            src={fabriLogo}
+            alt="logo"
+            className="h-[6rem] w-[6rem] rounded-xl"
+          />
+          <h1 className="text-4xl font-bold">FabriCare</h1>
+        </Link>
       </div>
 
       <div className="flex">
