@@ -137,16 +137,23 @@ const UsersTable = () => {
     } else {
       console.log('Deleting selected rows:', selectedRowIds);
 
-      axios
-        .delete(`${import.meta.env.VITE_SERVER_LINK}/users.php`, {
-          data: {
-            user_Id: selectedRowIds[0],
-          },
-        })
-        .then((res) => {
-          console.log(res.data);
-          feetchUsers();
-        });
+      const userIDS = selectedRowIds.map((row) => parseInt(row.toString(), 10));
+
+      userIDS.forEach((id) => {
+        axios
+          .delete(`${import.meta.env.VITE_SERVER_LINK}/users.php`, {
+            data: {
+              user_Id: id,
+            },
+          })
+          .then((res) => {
+            console.log(`Feedback ID ${id} deleted:`, res.data);
+            feetchUsers();
+          })
+          .catch((error) => {
+            console.error(`Error deleting feedback ID ${id}:`, error);
+          });
+      });
     }
   };
 
