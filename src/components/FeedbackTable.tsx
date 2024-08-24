@@ -119,18 +119,40 @@ const FeedbackTable = () => {
     } else {
       console.log('Deleting selected rows:', selectedRowIds);
 
-      console.log(selectedRowIds[0]);
+      // console.log(selectedRowIds[0]);
 
-      axios
-        .delete(`${import.meta.env.VITE_SERVER_LINK}/feedback.php`, {
-          data: {
-            feedback_id: selectedRowIds[0],
-          },
-        })
-        .then((res) => {
-          console.log(res.data);
-          fetchFeedbacks();
-        });
+      const feedbackIds = selectedRowIds.map((row) =>
+        parseInt(row.toString(), 10),
+      );
+
+      console.log(feedbackIds);
+
+      feedbackIds.forEach((id) => {
+        axios
+          .delete(`${import.meta.env.VITE_SERVER_LINK}/feedback.php`, {
+            data: {
+              feedback_id: id,
+            },
+          })
+          .then((res) => {
+            console.log(`Feedback ID ${id} deleted:`, res.data);
+            fetchFeedbacks();
+          })
+          .catch((error) => {
+            console.error(`Error deleting feedback ID ${id}:`, error);
+          });
+      });
+
+      // axios
+      //   .delete(`${import.meta.env.VITE_SERVER_LINK}/feedback.php`, {
+      //     data: {
+      //       feedback_id: selectedRowIds[0],
+      //     },
+      //   })
+      //   .then((res) => {
+      //     console.log(res.data);
+      //     fetchFeedbacks();
+      //   });
     }
   };
 
