@@ -1,5 +1,5 @@
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Button } from '@mui/material';
+import { Button } from './ui/button';
 import axios from 'axios';
 import {
   MaterialReactTable,
@@ -11,7 +11,6 @@ import {
 import moment from 'moment';
 import { useEffect, useMemo, useState } from 'react';
 
-//data definitions...
 interface Feedbacks {
   feedback_id: number;
   feedback_message: string;
@@ -19,29 +18,6 @@ interface Feedbacks {
   feedback_date: string;
   fullname: string;
 }
-//end
-
-// const data = [
-//   {
-//     userId: '3f25309c-8fa1-470f-811e-cdb082ab9017', //we'll use this as a unique row id
-//     firstName: 'Dylan',
-//     lastName: 'Murray',
-//     age: 22,
-//     address: '261 Erdman Ford',
-//     city: 'East Daphne',
-//     state: 'Kentucky',
-//   }, //data definitions...
-//   {
-//     userId: 'be731030-df83-419c-b3d6-9ef04e7f4a9f',
-//     firstName: 'Raquel',
-//     lastName: 'Kohler',
-//     age: 18,
-//     address: '769 Dominic Grove',
-//     city: 'Columbus',
-//     state: 'Ohio',
-//   },
-//   //end
-// ];
 
 const FeedbackTable = () => {
   const [data, setData] = useState<Feedbacks[]>([]);
@@ -142,17 +118,6 @@ const FeedbackTable = () => {
             console.error(`Error deleting feedback ID ${id}:`, error);
           });
       });
-
-      // axios
-      //   .delete(`${import.meta.env.VITE_SERVER_LINK}/feedback.php`, {
-      //     data: {
-      //       feedback_id: selectedRowIds[0],
-      //     },
-      //   })
-      //   .then((res) => {
-      //     console.log(res.data);
-      //     fetchFeedbacks();
-      //   });
     }
   };
 
@@ -167,21 +132,18 @@ const FeedbackTable = () => {
     state: { rowSelection },
     renderTopToolbarCustomActions: ({ table }) => (
       <Button
-        color="error"
+        className="bg-red-500"
         disabled={Object.keys(rowSelection).length === 0}
         onClick={() => handleDeleteRows(rowSelection, table)}
-        startIcon={<DeleteIcon />}
-        variant="contained"
       >
-        Delete Selected
+        <DeleteIcon /> Delete Selected
       </Button>
     ),
   });
 
-  //do something when the row selection changes...
   useEffect(() => {
-    console.info({ rowSelection }); //read your managed row selection state
-    console.info(table.getState().rowSelection); //alternate way to get the row selection state
+    console.info({ rowSelection });
+    console.info(table.getState().rowSelection);
   }, [rowSelection]);
 
   return <MaterialReactTable table={table} />;

@@ -7,13 +7,35 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+
+interface Notification {
+  notification_id: number;
+  notification_message: string;
+  created_at: string;
+}
 
 const Header = () => {
+  const [notification, setNotification] = useState<Notification[]>([]);
   const handleLogout = () => {
     localStorage.removeItem('isLoggedIn_FabriCare');
     localStorage.removeItem('role');
     window.location.href = '/login';
   };
+
+  const fetchNotification = () => {
+    axios
+      .get(`${import.meta.env.VITE_SERVER_LINK}/notification.php`)
+      .then((res) => {
+        console.log(res.data);
+        setNotification(res.data);
+      });
+  };
+
+  useEffect(() => {
+    fetchNotification();
+  }, []);
 
   return (
     <div className="flex h-fit w-full items-center justify-between border-2 p-4 pr-8">
@@ -28,7 +50,45 @@ const Header = () => {
         </Link>
       </div>
 
-      <div className="flex">
+      <div className="flex items-center gap-4">
+        <div className="relative flex items-center">
+          <span className="absolute right-2 top-0 block h-[0.8rem] w-[0.8rem] rounded-full bg-red-500"></span>
+
+          <Popover>
+            <PopoverTrigger>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                className="size-12 cursor-pointer"
+                color="#DEAC80"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
+                />
+              </svg>
+            </PopoverTrigger>
+            <PopoverContent className="mr-[5rem] w-[25rem]">
+              <div className="flex h-[15rem] max-h-[15rem] w-full flex-col gap-4 overflow-x-hidden overflow-y-scroll">
+                {notification.map((notif, index) => {
+                  return (
+                    <span key={index} className="w-full border-b-2 p-2">
+                      <p className="w-full text-wrap break-words font-semibold text-black">
+                        {notif.notification_message}
+                      </p>
+
+                      <span className="text-gray-600">{notif.created_at}</span>
+                    </span>
+                  );
+                })}
+              </div>
+            </PopoverContent>
+          </Popover>
+        </div>
         <Popover>
           <PopoverTrigger>
             {' '}

@@ -1,6 +1,6 @@
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Button } from '@mui/material';
 import axios from 'axios';
+import { Button } from './ui/button';
 import {
   MaterialReactTable,
   MRT_TableInstance,
@@ -168,13 +168,11 @@ const UsersTable = () => {
     state: { rowSelection },
     renderTopToolbarCustomActions: ({ table }) => (
       <Button
-        color="error"
+        className="bg-red-500"
         disabled={Object.keys(rowSelection).length === 0}
         onClick={() => handleDeleteRows(rowSelection, table)}
-        startIcon={<DeleteIcon />}
-        variant="contained"
       >
-        Delete Selected
+        <DeleteIcon /> Delete Selected
       </Button>
     ),
   });
@@ -190,12 +188,15 @@ const UsersTable = () => {
 
       {showAttachments && (
         <div className="absolute left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-black bg-opacity-75">
-          <div className="relative h-fit max-h-[60%] w-[40%] overflow-y-scroll rounded-lg bg-white px-4">
-            <div className="sticky top-0 z-20 flex h-[8rem] w-full flex-col items-center justify-center border-b-2 bg-white">
+          <div className="relative h-fit max-h-[60%] w-[40%] overflow-y-scroll rounded-lg bg-white">
+            <div className="sticky top-0 z-20 flex h-[8rem] w-full flex-col items-center justify-center border-b-2 bg-white px-4">
               <div className="flex w-full flex-row-reverse items-center justify-between">
                 <div className="flex justify-end">
-                  <Button onClick={() => setShowAttachments(false)}>
-                    CLose
+                  <Button
+                    className="border-2 bg-[#DEAC80]"
+                    onClick={() => setShowAttachments(false)}
+                  >
+                    Close
                   </Button>
                 </div>
 
@@ -216,7 +217,7 @@ const UsersTable = () => {
             </div>
 
             <div className="relative flex h-full flex-col items-center justify-center">
-              <div className="flex h-fit w-full flex-col">
+              <div className="flex h-fit w-full flex-col bg-gray-100 px-2">
                 {attachments.length > 0 ? (
                   attachments.map((attachment, index) => (
                     <div className="my-2 border-b-2 pb-2" key={index}>
