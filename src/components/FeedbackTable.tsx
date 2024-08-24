@@ -73,12 +73,12 @@ const FeedbackTable = () => {
       },
       {
         accessorKey: 'feedback_rate',
-        header: 'Feedbacks Rate',
+        header: 'Feedbacks',
       },
 
       {
         accessorKey: 'feedback_message',
-        header: 'Feedbacks Message',
+        header: 'Feedback Message',
       },
     ],
     [],

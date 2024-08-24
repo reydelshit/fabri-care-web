@@ -64,8 +64,9 @@ const UsersTable = () => {
   const columns = useMemo<MRT_ColumnDef<Users>[]>(
     () => [
       {
-        accessorKey: 'user_Id',
+        id: 'user_Id',
         header: 'User ID',
+        Cell: ({ row }) => <span>FABRI_USER - {row.original.user_Id} </span>,
       },
       {
         accessorKey: 'fullname',
