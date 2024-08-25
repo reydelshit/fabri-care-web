@@ -94,24 +94,19 @@ const Reports = () => {
               <BarChart data={data}>
                 <XAxis
                   dataKey="name"
-                  stroke="#888888"
-                  fontSize={12}
+                  stroke="black"
+                  fontSize={14}
                   tickLine={false}
                   axisLine={false}
                 />
                 <YAxis
-                  stroke="#888888"
-                  fontSize={10}
+                  stroke="black"
+                  fontSize={14}
                   tickLine={false}
                   axisLine={false}
                   tickFormatter={(value) => `${value}`}
                 />
-                <Bar
-                  dataKey="total"
-                  fill="#FACC15"
-                  radius={[4, 4, 0, 0]}
-                  className="fill-primary"
-                />
+                <Bar dataKey="total" fill="#DEAC80" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>{' '}
           </span>
@@ -122,15 +117,20 @@ const Reports = () => {
 
           <div className="mt-[2rem] text-start text-4xl">
             <p>
-              Name: <span className="font-bold">{contributor.fullname}</span>
+              Name:{' '}
+              <span className="font-bold text-[#DEAC80]">
+                {contributor.fullname}
+              </span>
             </p>
             <p>
               Image Uploaded:{' '}
-              <span className="font-bold">{contributor.uploaded_image}</span>
+              <span className="font-bold text-[#DEAC80]">
+                {contributor.uploaded_image}
+              </span>
             </p>
             <p>
               Day Most Used:{' '}
-              <span className="block font-semibold">
+              <span className="block font-semibold text-[#DEAC80]">
                 {' '}
                 {contributor.day_most_used}
               </span>

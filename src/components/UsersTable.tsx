@@ -85,6 +85,7 @@ const UsersTable = () => {
         header: 'Attachments',
         Cell: ({ row }) => (
           <Button
+            className="hover:bg-[#DEAC80]"
             onClick={() => {
               console.log(row.original.user_Id);
               handleShowAttachments(row.original.user_Id);

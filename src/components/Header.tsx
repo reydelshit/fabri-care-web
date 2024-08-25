@@ -9,6 +9,7 @@ import {
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import moment from 'moment';
 
 interface Notification {
   notification_id: number;
@@ -46,7 +47,9 @@ const Header = () => {
             alt="logo"
             className="h-[6rem] w-[6rem] rounded-xl"
           />
-          <h1 className="text-4xl font-bold">FabriCare</h1>
+          <h1 className="border-b-8 border-[#DEAC80] text-4xl font-bold">
+            FabriCare
+          </h1>
         </Link>
       </div>
 
@@ -81,7 +84,9 @@ const Header = () => {
                         {notif.notification_message}
                       </p>
 
-                      <span className="text-gray-600">{notif.created_at}</span>
+                      <span className="text-gray-600">
+                        {moment(notif.created_at).format('LL')}
+                      </span>
                     </span>
                   );
                 })}
@@ -110,7 +115,9 @@ const Header = () => {
           </PopoverTrigger>
           <PopoverContent>
             <div className="flex flex-col gap-4 p-4">
-              <Button onClick={handleLogout}>Logout</Button>
+              <Button className="hover:bg-[#DEAC80]" onClick={handleLogout}>
+                Logout
+              </Button>
             </div>
           </PopoverContent>
         </Popover>
