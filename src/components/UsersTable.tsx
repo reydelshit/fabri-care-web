@@ -29,13 +29,13 @@ interface Attachments {
 
 const UsersTable = () => {
   const [data, setData] = useState<Users[]>([]);
-  const [userID, setUserID] = useState<string>('');
+  // const [userID, setUserID] = useState<string>('');
   const [showAttachments, setShowAttachments] = useState<boolean>(false);
 
   const [attachments, setAttachments] = useState<Attachments[]>([]);
 
   const handleShowAttachments = (id: string) => {
-    setUserID(id);
+    // setUserID(id);
     setShowAttachments(true);
 
     axios
