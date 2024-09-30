@@ -125,7 +125,12 @@ const FeedbackTable = () => {
 
   const table = useMaterialReactTable({
     columns,
-    data,
+    data: data.sort((a, b) => {
+      return (
+        new Date(b.feedback_date).getTime() -
+        new Date(a.feedback_date).getTime()
+      );
+    }),
     enableRowSelection: true,
     getRowId: (row) => row.feedback_id.toString(),
     onRowSelectionChange: setRowSelection,

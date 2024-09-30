@@ -162,7 +162,11 @@ const UsersTable = () => {
 
   const table = useMaterialReactTable({
     columns,
-    data,
+    data: data.sort((a, b) => {
+      return (
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      );
+    }),
     enableRowSelection: true,
     getRowId: (row) => row.user_Id,
     onRowSelectionChange: setRowSelection,

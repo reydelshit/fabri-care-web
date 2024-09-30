@@ -30,7 +30,17 @@ const Header = () => {
       .get(`${import.meta.env.VITE_SERVER_LINK}/notification.php`)
       .then((res) => {
         console.log(res.data);
-        setNotification(res.data);
+
+        const ORDERBYLATEST = res.data.sort(
+          (a: Notification, b: Notification): number => {
+            return (
+              new Date(b.created_at).getTime() -
+              new Date(a.created_at).getTime()
+            );
+          },
+        );
+
+        setNotification(ORDERBYLATEST);
       });
   };
 
@@ -77,19 +87,25 @@ const Header = () => {
             </PopoverTrigger>
             <PopoverContent className="mr-[5rem] w-[25rem]">
               <div className="flex h-[15rem] max-h-[15rem] w-full flex-col gap-4 overflow-x-hidden overflow-y-scroll">
-                {notification.map((notif, index) => {
-                  return (
-                    <span key={index} className="w-full border-b-2 p-2">
-                      <p className="w-full text-wrap break-words font-semibold text-black">
-                        {notif.notification_message}
-                      </p>
+                {notification.length > 0 ? (
+                  notification.map((notif, index) => {
+                    return (
+                      <span key={index} className="w-full border-b-2 p-2">
+                        <p className="w-full text-wrap break-words font-semibold text-black">
+                          {notif.notification_message}
+                        </p>
 
-                      <span className="text-gray-600">
-                        {moment(notif.created_at).format('LL')}
+                        <span className="text-gray-600">
+                          {moment(notif.created_at).format('LL')}
+                        </span>
                       </span>
-                    </span>
-                  );
-                })}
+                    );
+                  })
+                ) : (
+                  <span className="w-full text-center text-gray-400">
+                    No Notification
+                  </span>
+                )}
               </div>
             </PopoverContent>
           </Popover>
