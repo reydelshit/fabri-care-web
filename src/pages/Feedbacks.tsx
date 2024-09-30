@@ -1,5 +1,4 @@
 import FeedbackTable from '@/components/FeedbackTable';
-import React from 'react';
 
 const Feedbacks = () => {
   return (

@@ -1,7 +1,6 @@
 import Header from '@/components/Header';
 import { Toaster } from '@/components/ui/toaster';
 import Reports from '@/pages/Reports';
-import { useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import Footer from './Footer';
 
