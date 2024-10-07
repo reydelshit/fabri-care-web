@@ -11,7 +11,6 @@ import moment from 'moment';
 import { useEffect, useMemo, useState } from 'react';
 import { Button } from './ui/button';
 
-//data definitions...
 interface Users {
   user_Id: string;
   fullname: string;
@@ -27,9 +26,13 @@ interface Attachments {
   user_Id: string;
 }
 
-const UsersTable = () => {
-  const [data, setData] = useState<Users[]>([]);
-  // const [userID, setUserID] = useState<string>('');
+const UsersTable = ({
+  fetchUsers,
+  data,
+}: {
+  fetchUsers: () => void;
+  data: Users[];
+}) => {
   const [showAttachments, setShowAttachments] = useState<boolean>(false);
 
   const [attachments, setAttachments] = useState<Attachments[]>([]);
@@ -49,17 +52,6 @@ const UsersTable = () => {
         setAttachments(res.data);
       });
   };
-
-  const feetchUsers = () => {
-    axios.get(`${import.meta.env.VITE_SERVER_LINK}/users.php`).then((res) => {
-      console.log(res.data);
-      setData(res.data);
-    });
-  };
-
-  useEffect(() => {
-    feetchUsers();
-  }, []);
 
   const columns = useMemo<MRT_ColumnDef<Users>[]>(
     () => [
@@ -129,7 +121,7 @@ const UsersTable = () => {
           })
           .then((res) => {
             console.log(`Feedback ID ${id} deleted:`, res.data);
-            feetchUsers();
+            fetchUsers();
           })
           .catch((error) => {
             console.error(`Error deleting feedback ID ${id}:`, error);
@@ -149,7 +141,7 @@ const UsersTable = () => {
           })
           .then((res) => {
             console.log(`Feedback ID ${id} deleted:`, res.data);
-            feetchUsers();
+            fetchUsers();
           })
           .catch((error) => {
             console.error(`Error deleting feedback ID ${id}:`, error);

@@ -1,5 +1,4 @@
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Button } from './ui/button';
 import axios from 'axios';
 import {
   MaterialReactTable,
@@ -10,6 +9,7 @@ import {
 } from 'material-react-table';
 import moment from 'moment';
 import { useEffect, useMemo, useState } from 'react';
+import { Button } from './ui/button';
 
 interface Feedbacks {
   feedback_id: number;
@@ -19,22 +19,13 @@ interface Feedbacks {
   fullname: string;
 }
 
-const FeedbackTable = () => {
-  const [data, setData] = useState<Feedbacks[]>([]);
-
-  const fetchFeedbacks = () => {
-    axios
-      .get(`${import.meta.env.VITE_SERVER_LINK}/feedback.php`)
-      .then((res) => {
-        console.log(res.data);
-        setData(res.data);
-      });
-  };
-
-  useEffect(() => {
-    fetchFeedbacks();
-  }, []);
-
+const FeedbackTable = ({
+  fetchFeedbacks,
+  data,
+}: {
+  fetchFeedbacks: () => void;
+  data: Feedbacks[];
+}) => {
   const columns = useMemo<MRT_ColumnDef<Feedbacks>[]>(
     () => [
       {
