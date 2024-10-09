@@ -95,12 +95,12 @@ const Reports = () => {
 
   return (
     <div className="h-full min-h-[700px] w-full">
-      <div className="flex h-[4rem] w-full items-center border-b-2 px-4">
+      <div className="flex h-[4rem] w-full items-center border-b-2">
         <h1 className="text-2xl font-bold">Reports</h1>
       </div>
 
-      <div className="flex gap-4">
-        <div className="mt-[2rem] w-full p-4 text-center">
+      <div className="flex w-full items-center gap-2">
+        <div className="mt-[2rem] w-[50%] p-4 text-center">
           <h1 className="text-[3rem] font-bold">ENGAGEMENT</h1>
 
           <span className="mt-[4rem] block text-center text-4xl text-[6rem] font-bold text-[#DEAC80]">
@@ -116,7 +116,7 @@ const Reports = () => {
           {isLoading ? (
             <Loader />
           ) : (
-            <span className="mt-[4rem] block">
+            <span className="mt-[4rem] block w-full">
               <ResponsiveContainer width="100%" height={250}>
                 <BarChart data={data}>
                   <XAxis
@@ -140,7 +140,7 @@ const Reports = () => {
           )}
         </div>
 
-        <div className="mt-[2rem] flex w-full flex-col items-center p-4 text-center">
+        <div className="mt-[2rem] flex w-[50%] flex-col items-center p-4 text-center">
           <h1 className="text-[2.5rem] font-bold">TOP CONTRIBUTOR</h1>
 
           {isLoading ? (
