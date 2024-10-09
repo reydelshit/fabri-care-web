@@ -10,6 +10,8 @@ import {
 import moment from 'moment';
 import { useEffect, useMemo, useState } from 'react';
 import { Button } from './ui/button';
+import useLoadingStore from './hooks/useLoading';
+import Loader from '@/pages/Loader';
 
 interface Users {
   user_Id: string;
@@ -34,23 +36,33 @@ const UsersTable = ({
   data: Users[];
 }) => {
   const [showAttachments, setShowAttachments] = useState<boolean>(false);
-
+  // const { isLoading, setLoading } = useLoadingStore();
   const [attachments, setAttachments] = useState<Attachments[]>([]);
 
-  const handleShowAttachments = (id: string) => {
+  const [loadingImage, setLoadingImage] = useState<boolean>(false);
+
+  const handleShowAttachments = async (id: string) => {
     // setUserID(id);
     setShowAttachments(true);
 
-    axios
-      .get(`${import.meta.env.VITE_SERVER_LINK}/users.php`, {
-        params: {
-          user_Id: id,
+    try {
+      setLoadingImage(true);
+
+      const res = await axios.get(
+        `${import.meta.env.VITE_SERVER_LINK}/users.php`,
+        {
+          params: {
+            user_Id: id,
+          },
         },
-      })
-      .then((res) => {
-        console.log(res.data, 'ssssssss');
-        setAttachments(res.data);
-      });
+      );
+
+      setAttachments(res.data);
+    } catch (error) {
+      console.error('Error fetching feedbacks:', error);
+    } finally {
+      setLoadingImage(false);
+    }
   };
 
   const columns = useMemo<MRT_ColumnDef<Users>[]>(
@@ -214,19 +226,27 @@ const UsersTable = ({
             </div>
 
             <div className="relative flex h-full flex-col items-center justify-center">
-              <div className="flex h-fit w-full flex-col bg-gray-100 px-2">
-                {attachments.length > 0 ? (
+              <div className="flex max-h-fit min-h-[8rem] w-full flex-col bg-gray-100 px-2">
+                {loadingImage ? (
+                  <Loader />
+                ) : attachments.length > 0 ? (
                   attachments.map((attachment, index) => (
                     <div className="my-2 border-b-2 pb-2" key={index}>
                       <div className="flex items-center gap-4">
                         <h1 className="h-[3rem] w-[3rem] rounded-full bg-[#DEAC80] p-4 text-center font-bold">
                           {index + 1}
                         </h1>
-                        <img
-                          className="h-[15rem] w-[15rem] object-cover"
-                          src={`${import.meta.env.VITE_SERVER_LINK}/${attachment.image_path}`}
-                          alt="image"
-                        />
+                        <div className="flex flex-col">
+                          <img
+                            className="h-[15rem] w-[15rem] rounded-lg object-cover"
+                            src={`${import.meta.env.VITE_SERVER_LINK}/${attachment.image_path}`}
+                            alt="image"
+                          />
+                          <p>
+                            Date uploaded:{' '}
+                            {moment(attachment.image_uploadDate).format('ll')}
+                          </p>
+                        </div>
                       </div>
                     </div>
                   ))
