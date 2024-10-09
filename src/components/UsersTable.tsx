@@ -1,3 +1,4 @@
+import Loader from '@/pages/Loader';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import {
@@ -10,8 +11,6 @@ import {
 import moment from 'moment';
 import { useEffect, useMemo, useState } from 'react';
 import { Button } from './ui/button';
-import useLoadingStore from './hooks/useLoading';
-import Loader from '@/pages/Loader';
 
 interface Users {
   user_Id: string;

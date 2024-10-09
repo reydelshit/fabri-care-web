@@ -41,9 +41,11 @@ const Users = () => {
         <h1 className="text-2xl font-bold">List of Users</h1>
       </div>
 
-      <div className="my-4 h-full">
+      <div className="my-4 max-h-fit min-h-[500px]">
         {isLoading ? (
-          <Loader />
+          <div className="flex h-[400px] w-full items-center justify-center">
+            <Loader />
+          </div>
         ) : (
           <UsersTable fetchUsers={fetchUsers} data={data} />
         )}

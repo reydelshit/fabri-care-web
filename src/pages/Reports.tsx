@@ -94,7 +94,7 @@ const Reports = () => {
   }, []);
 
   return (
-    <div className="h-full w-full">
+    <div className="h-full min-h-[700px] w-full">
       <div className="flex h-[4rem] w-full items-center border-b-2 px-4">
         <h1 className="text-2xl font-bold">Reports</h1>
       </div>
