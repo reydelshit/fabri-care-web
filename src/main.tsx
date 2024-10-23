@@ -7,6 +7,7 @@ import Feedbacks from './pages/Feedbacks.tsx';
 import Login from './pages/Login.tsx';
 import Root from './pages/Root.tsx';
 import Users from './pages/Users.tsx';
+import Instructions from './pages/Instructions.tsx';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: 'users',
         element: <Users />,
+      },
+      {
+        path: '/instructions',
+        element: <Instructions />,
       },
     ],
   },

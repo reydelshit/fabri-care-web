@@ -191,11 +191,11 @@ const UsersTable = ({
   }, [rowSelection]);
 
   return (
-    <div className="block">
+    <div className="block h-full">
       <MaterialReactTable table={table} />
 
       {showAttachments && (
-        <div className="absolute left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-black bg-opacity-75">
+        <div className="absolute left-0 top-0 z-50 flex h-dvh w-full items-center justify-center bg-black bg-opacity-75">
           <div className="relative h-fit max-h-[60%] w-[40%] overflow-y-scroll rounded-lg bg-white">
             <div className="sticky top-0 z-20 flex h-[8rem] w-full flex-col items-center justify-center border-b-2 bg-white px-4">
               <div className="flex w-full flex-row-reverse items-center justify-between">

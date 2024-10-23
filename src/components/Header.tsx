@@ -49,7 +49,7 @@ const Header = () => {
   }, []);
 
   return (
-    <div className="flex h-fit w-full items-center justify-between border-2 p-4 pr-8">
+    <div className="flex h-fit w-full items-center justify-between p-4 pr-8">
       <div className="flex items-center gap-4">
         <Link className="flex items-center gap-4" to="/">
           <img
