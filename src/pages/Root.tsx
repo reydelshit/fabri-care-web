@@ -3,15 +3,18 @@ import { Toaster } from '@/components/ui/toaster';
 import Reports from '@/pages/Reports';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import Footer from './Footer';
+import { useEffect } from 'react';
 
 const Root = () => {
   const params = useLocation();
 
   const stateLogin = localStorage.getItem('isLoggedIn_FabriCare');
 
-  if (!stateLogin) {
-    window.location.href = '/login';
-  }
+  useEffect(() => {
+    if (!stateLogin) {
+      window.location.href = '/login';
+    }
+  }, []);
 
   return (
     <div className="h-screen overflow-x-hidden">
