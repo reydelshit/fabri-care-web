@@ -1,6 +1,7 @@
 import Logo from '@/assets/logo-fabri.png';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { toast } from '@/components/ui/use-toast';
 import { useState } from 'react';
 
 export default function Login() {
@@ -15,12 +16,19 @@ export default function Login() {
     const p = `${import.meta.env.VITE_PASSWORD}`;
 
     if (!loginDetails.username || !loginDetails.password) {
-      alert('Please enter username and password');
+      toast({
+        title: 'Login failed',
+        description: 'Please fill in all fields',
+        variant: 'destructive',
+      });
       return;
     }
 
     if (loginDetails.username === u && loginDetails.password === p) {
-      alert('Login successful');
+      toast({
+        title: 'Login successful',
+        description: 'Welcome to FabriCare',
+      });
 
       localStorage.setItem('isLoggedIn_FabriCare', 'true');
       localStorage.setItem('role', 'admin');
@@ -29,7 +37,11 @@ export default function Login() {
 
       return;
     } else {
-      alert('Invalid username or password');
+      toast({
+        title: 'Login failed',
+        description: 'Invalid username or password',
+        variant: 'destructive',
+      });
     }
   };
 
@@ -56,18 +68,18 @@ export default function Login() {
         >
           <Input
             placeholder="Username"
-            className="w- mb-2"
+            className="mb-2 w-[80%]"
             name="username"
             onChange={handleChange}
           />
           <Input
             type="password"
             placeholder="Password"
-            className="w- mb-2"
+            className="mb-2 w-[80%]"
             name="password"
             onChange={handleChange}
           />
-          <Button className="my-4 w-[80%] bg-[#DEAC80]" type="submit">
+          <Button className="my-4 w-[40%] bg-[#DEAC80]" type="submit">
             Login
           </Button>
         </form>

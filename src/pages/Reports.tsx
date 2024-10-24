@@ -21,10 +21,10 @@ interface Users {
   created_at: string;
 }
 
-interface Data {
-  name: string;
-  total: number;
-}
+// interface Data {
+//   name: string;
+//   total: number;
+// }
 
 interface Contributor {
   fullname: string;
@@ -42,7 +42,7 @@ interface PopularFabricStains {
 
 const Reports = () => {
   const [dataUser, setDataUser] = useState<Users[]>([]);
-  const [data, setData] = useState<Data[]>([]);
+  // const [data, setData] = useState<Data[]>([]);
   const [contributor, setContributor] = useState({} as Contributor);
   const [popularFabricStainsData, setPopularFabricStainsData] = useState<
     PopularFabricStains[]
@@ -66,20 +66,20 @@ const Reports = () => {
     }
   };
 
-  const feetchGraphUsers = async () => {
-    try {
-      setLoading(true);
-      const res = await axios.get(
-        `${import.meta.env.VITE_SERVER_LINK}/graphWeek.php`,
-      );
+  // const feetchGraphUsers = async () => {
+  //   try {
+  //     setLoading(true);
+  //     const res = await axios.get(
+  //       `${import.meta.env.VITE_SERVER_LINK}/graphWeek.php`,
+  //     );
 
-      setData(res.data);
-    } catch (error) {
-      console.error('Error fetching users:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     // setData(res.data);
+  //   } catch (error) {
+  //     console.error('Error fetching users:', error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const fetchContributor = async () => {
     try {
@@ -127,7 +127,7 @@ const Reports = () => {
 
   useEffect(() => {
     Promise.all([
-      feetchGraphUsers(),
+      // feetchGraphUsers(),
       fetchContributor(),
       feetchUsers(),
       fetchGraphPopularFabricStains(),
@@ -180,47 +180,51 @@ const Reports = () => {
           </div>
         </div>
 
-        <div className="mx-auto w-full rounded-3xl border-[1px] p-4 shadow-sm">
-          <h2 className="mb-4 text-center text-2xl font-bold">
-            Popular Fabrics and Stains
-          </h2>
-          <ResponsiveContainer width="100%" height={400}>
-            <BarChart data={popularFabricStainsData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip
-                content={({ active, payload, label }) => {
-                  if (active && payload && payload.length) {
-                    const fabricData = payload.find(
-                      (p) => p.dataKey === 'fabricValue',
-                    );
-                    const stainData = payload.find(
-                      (p) => p.dataKey === 'stainValue',
-                    );
-                    return (
-                      <div className="border border-gray-300 bg-white p-2 shadow-md">
-                        <p className="font-bold">{label}</p>
-                        {fabricData && (
-                          <p className="text-sm">{`${fabricData.payload.fabric}: ${fabricData.value}`}</p>
-                        )}
-                        {stainData &&
-                          typeof stainData.value === 'number' &&
-                          stainData.value > 0 && (
-                            <p className="text-sm">{`${stainData.payload.stain}: ${stainData.value}`}</p>
+        {!isLoading ? (
+          <div className="mx-auto w-full rounded-3xl border-[1px] p-4 shadow-sm">
+            <h2 className="mb-4 text-center text-2xl font-bold">
+              Popular Fabrics and Stains
+            </h2>
+            <ResponsiveContainer width="100%" height={400}>
+              <BarChart data={popularFabricStainsData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis />
+                <Tooltip
+                  content={({ active, payload, label }) => {
+                    if (active && payload && payload.length) {
+                      const fabricData = payload.find(
+                        (p) => p.dataKey === 'fabricValue',
+                      );
+                      const stainData = payload.find(
+                        (p) => p.dataKey === 'stainValue',
+                      );
+                      return (
+                        <div className="border border-gray-300 bg-white p-2 shadow-md">
+                          <p className="font-bold">{label}</p>
+                          {fabricData && (
+                            <p className="text-sm">{`${fabricData.payload.fabric}: ${fabricData.value}`}</p>
                           )}
-                      </div>
-                    );
-                  }
-                  return null;
-                }}
-              />
-              <Legend />
-              <Bar dataKey="fabricValue" name="Fabric" fill="#DEAC80" />
-              <Bar dataKey="stainValue" name="Stain" fill="#8B4513" />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
+                          {stainData &&
+                            typeof stainData.value === 'number' &&
+                            stainData.value > 0 && (
+                              <p className="text-sm">{`${stainData.payload.stain}: ${stainData.value}`}</p>
+                            )}
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
+                />
+                <Legend />
+                <Bar dataKey="fabricValue" name="Fabric" fill="#DEAC80" />
+                <Bar dataKey="stainValue" name="Stain" fill="#8B4513" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        ) : (
+          <Loader />
+        )}
         {/* 
         <div className="mt-[2rem] w-full rounded-3xl border-[1px] p-4 text-center shadow-sm">
           <h1 className="text-[3rem] font-bold">POPULAR DAYS</h1>'

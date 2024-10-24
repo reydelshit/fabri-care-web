@@ -1,22 +1,6 @@
+import usePagination from '@/components/hooks/usePagination';
+import PaginationTemplate from '@/components/Pagination';
 import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
 import {
   Dialog,
   DialogClose,
@@ -27,12 +11,28 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Input } from '@/components/ui/input';
-import usePagination from '@/components/hooks/usePagination';
-import PaginationTemplate from '@/components/Pagination';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/components/ui/use-toast';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 interface StainData {
   id: string;
@@ -64,7 +64,7 @@ const Instructions = () => {
 
   const [instructions, setInstructions] = useState<StainData[]>([]);
   const [instructionsID, setInstructionsID] = useState<string>('');
-  const [open, setOpen] = useState(false);
+
   const [itemId, setItemId] = useState<string>('');
 
   const fetchInstructions = async () => {
@@ -166,7 +166,6 @@ const Instructions = () => {
 
   const handleConfirmDelete = () => {
     handleDelete(itemId);
-    setOpen(false);
   };
 
   const fetchInstructionsByID = async (id: string) => {
@@ -721,12 +720,14 @@ const Instructions = () => {
                         </DialogDescription>
                       </DialogHeader>
                       <DialogFooter>
-                        <Button
-                          variant="outline"
-                          onClick={() => setOpen(false)}
-                        >
-                          Cancel
-                        </Button>
+                        <DialogClose>
+                          <Button
+                            variant="outline"
+                            onClick={() => setItemId('')}
+                          >
+                            Cancel
+                          </Button>{' '}
+                        </DialogClose>
                         <DialogClose>
                           <Button
                             variant="destructive"

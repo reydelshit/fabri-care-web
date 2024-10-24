@@ -68,7 +68,7 @@ const Root = () => {
       </div>
 
       <Toaster />
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 };

@@ -131,7 +131,7 @@ const Header = () => {
           </PopoverTrigger>
           <PopoverContent>
             <div className="flex flex-col gap-4 p-4">
-              <Button className="hover:bg-[#DEAC80]" onClick={handleLogout}>
+              <Button className="bg-[#DEAC80]" onClick={handleLogout}>
                 Logout
               </Button>
             </div>
