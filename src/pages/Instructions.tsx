@@ -14,13 +14,6 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import {
   Table,
   TableBody,
   TableCaption,
@@ -49,9 +42,10 @@ interface StainData {
 }
 
 const Instructions = () => {
-  const [fabricType, setFabricType] = useState<string>('');
+  // const [fabricType, setFabricType] = useState<string>('');
   const [search, setSearch] = useState<string>('');
   const [formData, setFormData] = useState({
+    fabric_type: '',
     washing_instructions: '',
     blood_instructions: '',
     coffee_instructions: '',
@@ -112,7 +106,6 @@ const Instructions = () => {
       const res = await axios.post(
         `${import.meta.env.VITE_SERVER_LINK}/instructions.php`,
         {
-          fabric_type: fabricType,
           stain_type: 'General',
           ...formData,
         },
@@ -127,6 +120,7 @@ const Instructions = () => {
       });
 
       setFormData({
+        fabric_type: '',
         washing_instructions: '',
         blood_instructions: '',
         coffee_instructions: '',
@@ -191,8 +185,6 @@ const Instructions = () => {
     e.preventDefault();
     console.log('submitted');
 
-    console.log(formData, instructionsID, fabricType);
-
     try {
       const res = await axios.put(
         `${import.meta.env.VITE_SERVER_LINK}/instructions.php`,
@@ -200,7 +192,6 @@ const Instructions = () => {
           ...formData,
           id: instructionsID,
           stain_type: 'General',
-          fabric_type: fabricType,
         },
       );
 
@@ -245,20 +236,12 @@ const Instructions = () => {
             <form onSubmit={handleSubmit}>
               <div>
                 <Label>Fabric type:</Label>
-                <Select onValueChange={(value) => setFabricType(value)}>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select Fabric type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Cotton">Cotton</SelectItem>
-                    <SelectItem value="Linen">Linen</SelectItem>
-                    <SelectItem value="Rayon">Rayon</SelectItem>
-                    <SelectItem value="Synthetic">Synthetic</SelectItem>
-                    <SelectItem value="Cashmere">Cashmere</SelectItem>
-                    <SelectItem value="Silk">Silk</SelectItem>
-                    <SelectItem value="Wool">Wool</SelectItem>
-                  </SelectContent>
-                </Select>{' '}
+                <Input
+                  value={formData.fabric_type}
+                  onChange={handleChange}
+                  name="fabric_type"
+                  className="w-[50%]"
+                />
               </div>
 
               <div className="mt-2 grid grid-cols-2 gap-4">
@@ -566,13 +549,14 @@ const Instructions = () => {
 
                       <form onSubmit={handleSubmitEdit}>
                         <div>
-                          <Label>
-                            Fabric type:{' '}
-                            <span className="my-2 font-bold underline">
-                              {item.fabric_type}
-                            </span>
-                          </Label>
-                          <Select
+                          <Label>Fabric type: </Label>
+
+                          <Input
+                            name="fabric_type"
+                            value={formData.fabric_type}
+                            onChange={handleChange}
+                          />
+                          {/* <Select
                             onValueChange={(value) => {
                               console.log(value);
                               setFabricType(value);
@@ -592,7 +576,7 @@ const Instructions = () => {
                               <SelectItem value="Silk">Silk</SelectItem>
                               <SelectItem value="Wool">Wool</SelectItem>
                             </SelectContent>
-                          </Select>{' '}
+                          </Select>{' '} */}
                         </div>
 
                         <div className="mt-2 grid grid-cols-2 gap-4">
