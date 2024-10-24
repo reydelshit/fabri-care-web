@@ -19,8 +19,10 @@ import {
 } from '@/components/ui/table';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -30,6 +32,7 @@ import axios from 'axios';
 import { Input } from '@/components/ui/input';
 import usePagination from '@/components/hooks/usePagination';
 import PaginationTemplate from '@/components/Pagination';
+import { toast } from '@/components/ui/use-toast';
 
 interface StainData {
   id: string;
@@ -61,6 +64,8 @@ const Instructions = () => {
 
   const [instructions, setInstructions] = useState<StainData[]>([]);
   const [instructionsID, setInstructionsID] = useState<string>('');
+  const [open, setOpen] = useState(false);
+  const [itemId, setItemId] = useState<string>('');
 
   const fetchInstructions = async () => {
     try {
@@ -113,7 +118,24 @@ const Instructions = () => {
         },
       );
 
+      fetchInstructions();
       console.log(res.data);
+
+      toast({
+        title: 'Instructions added successfully',
+        description: 'The instructions have been added successfully',
+      });
+
+      setFormData({
+        washing_instructions: '',
+        blood_instructions: '',
+        coffee_instructions: '',
+        grass_instructions: '',
+        grease_instructions: '',
+        marker_instructions: '',
+        ketchup_instructions: '',
+        chocolate_instructions: '',
+      });
     } catch (error) {
       console.error('Error submitting instructions:', error);
     }
@@ -132,9 +154,19 @@ const Instructions = () => {
 
       console.log(res.data);
       fetchInstructions();
+
+      toast({
+        title: 'Instructions deleted successfully',
+        description: 'The instructions have been deleted successfully',
+      });
     } catch (error) {
       console.error('Error deleting instructions:', error);
     }
+  };
+
+  const handleConfirmDelete = () => {
+    handleDelete(itemId);
+    setOpen(false);
   };
 
   const fetchInstructionsByID = async (id: string) => {
@@ -174,6 +206,11 @@ const Instructions = () => {
       );
 
       console.log(res.data);
+
+      toast({
+        title: 'Instructions updated successfully',
+        description: 'The instructions have been updated successfully',
+      });
     } catch (error) {
       console.error('Error submitting instructions:', error);
     }
@@ -316,12 +353,15 @@ const Instructions = () => {
               </div>
 
               <div className="mt-4 inline-flex w-full justify-end self-end">
-                <Button
-                  type="submit"
-                  className="rounded-md bg-[#DEAC80] p-2 text-white"
-                >
-                  Submit
-                </Button>
+                <DialogClose>
+                  {' '}
+                  <Button
+                    type="submit"
+                    className="rounded-md bg-[#DEAC80] p-2 text-white"
+                  >
+                    Submit
+                  </Button>
+                </DialogClose>
               </div>
             </form>
           </DialogContent>
@@ -647,23 +687,57 @@ const Instructions = () => {
                         </div>
 
                         <div className="mt-4 inline-flex w-full justify-end self-end">
-                          <Button
-                            type="submit"
-                            className="rounded-md bg-[#DEAC80] p-2 text-white"
-                          >
-                            Update
-                          </Button>
+                          <DialogClose>
+                            <Button
+                              type="submit"
+                              className="rounded-md bg-[#DEAC80] p-2 text-white"
+                            >
+                              Update
+                            </Button>
+                          </DialogClose>
                         </div>
                       </form>
                     </DialogContent>
                   </Dialog>
 
-                  <Button
-                    onClick={() => handleDelete(item.id)}
-                    className="bg-red-500 p-2 text-white"
-                  >
-                    Delete
-                  </Button>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button
+                        onClick={() => setItemId(item.id)}
+                        variant="destructive"
+                        size="sm"
+                      >
+                        Delete
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="w-[30%]">
+                      <DialogHeader>
+                        <DialogTitle>
+                          Are you sure you want to delete this item?
+                        </DialogTitle>
+                        <DialogDescription>
+                          This action cannot be undone. This will permanently
+                          delete the item.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <DialogFooter>
+                        <Button
+                          variant="outline"
+                          onClick={() => setOpen(false)}
+                        >
+                          Cancel
+                        </Button>
+                        <DialogClose>
+                          <Button
+                            variant="destructive"
+                            onClick={handleConfirmDelete}
+                          >
+                            Delete
+                          </Button>{' '}
+                        </DialogClose>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
                 </div>
               </TableCell>
             </TableRow>
