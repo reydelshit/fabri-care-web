@@ -26,6 +26,13 @@ import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/components/ui/use-toast';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 interface StainData {
   id: string;
@@ -208,6 +215,76 @@ const Instructions = () => {
     fetchInstructions();
   };
 
+  const handleSelectInstructions = (type: string, value: string) => {
+    switch (type) {
+      case 'Washing':
+        setFormData({
+          ...formData,
+          washing_instructions:
+            instructions.find((item) => item.fabric_type === value)
+              ?.washing_instructions || '',
+        });
+
+        break;
+      case 'Blood':
+        setFormData({
+          ...formData,
+          blood_instructions:
+            instructions.find((item) => item.fabric_type === value)
+              ?.blood_instructions || '',
+        });
+        break;
+      case 'Coffee':
+        setFormData({
+          ...formData,
+          coffee_instructions:
+            instructions.find((item) => item.fabric_type === value)
+              ?.coffee_instructions || '',
+        });
+        break;
+      case 'Grass':
+        setFormData({
+          ...formData,
+          grass_instructions:
+            instructions.find((item) => item.fabric_type === value)
+              ?.grass_instructions || '',
+        });
+        break;
+      case 'Grease':
+        setFormData({
+          ...formData,
+          grease_instructions:
+            instructions.find((item) => item.fabric_type === value)
+              ?.grease_instructions || '',
+        });
+        break;
+      case 'Marker':
+        setFormData({
+          ...formData,
+          marker_instructions:
+            instructions.find((item) => item.fabric_type === value)
+              ?.marker_instructions || '',
+        });
+        break;
+      case 'Ketchup':
+        setFormData({
+          ...formData,
+          ketchup_instructions:
+            instructions.find((item) => item.fabric_type === value)
+              ?.ketchup_instructions || '',
+        });
+        break;
+      case 'Chocolate':
+        setFormData({
+          ...formData,
+          chocolate_instructions:
+            instructions.find((item) => item.fabric_type === value)
+              ?.chocolate_instructions || '',
+        });
+        break;
+    }
+  };
+
   return (
     <div className="w-full">
       <div className="my-2 flex w-full justify-between">
@@ -246,7 +323,27 @@ const Instructions = () => {
 
               <div className="mt-2 grid grid-cols-2 gap-4">
                 <div>
-                  <Label>Washing Instructions</Label>
+                  <div className="my-2 flex items-center justify-between">
+                    <Label>Washing Instructions</Label>
+
+                    <Select
+                      onValueChange={(value: string) =>
+                        handleSelectInstructions('Washing', value)
+                      }
+                    >
+                      <SelectTrigger className="w-[280px]">
+                        <SelectValue placeholder="Use existing instructions" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {instructions.map((item, index) => (
+                          <SelectItem key={index} value={item.fabric_type}>
+                            {item.fabric_type}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
                   <Textarea
                     name="washing_instructions"
                     value={formData.washing_instructions}
@@ -257,7 +354,26 @@ const Instructions = () => {
                 </div>
 
                 <div>
-                  <Label>Blood Instructions</Label>
+                  <div className="my-2 flex items-center justify-between">
+                    <Label>Blood Instructions</Label>
+
+                    <Select
+                      onValueChange={(value: string) =>
+                        handleSelectInstructions('Blood', value)
+                      }
+                    >
+                      <SelectTrigger className="w-[280px]">
+                        <SelectValue placeholder="Use existing instructions" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {instructions.map((item, index) => (
+                          <SelectItem key={index} value={item.fabric_type}>
+                            {item.fabric_type}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                   <Textarea
                     name="blood_instructions"
                     value={formData.blood_instructions}
@@ -268,7 +384,26 @@ const Instructions = () => {
                 </div>
 
                 <div>
-                  <Label>Coffee Instructions</Label>
+                  <div className="my-2 flex items-center justify-between">
+                    <Label>Coffee Instructions</Label>
+
+                    <Select
+                      onValueChange={(value: string) =>
+                        handleSelectInstructions('Coffee', value)
+                      }
+                    >
+                      <SelectTrigger className="w-[280px]">
+                        <SelectValue placeholder="Use existing instructions" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {instructions.map((item, index) => (
+                          <SelectItem key={index} value={item.fabric_type}>
+                            {item.fabric_type}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                   <Textarea
                     name="coffee_instructions"
                     value={formData.coffee_instructions}
@@ -279,7 +414,26 @@ const Instructions = () => {
                 </div>
 
                 <div>
-                  <Label>Grass Instructions</Label>
+                  <div className="my-2 flex items-center justify-between">
+                    <Label>Grass Instructions</Label>
+
+                    <Select
+                      onValueChange={(value: string) =>
+                        handleSelectInstructions('Grass', value)
+                      }
+                    >
+                      <SelectTrigger className="w-[280px]">
+                        <SelectValue placeholder="Use existing instructions" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {instructions.map((item, index) => (
+                          <SelectItem key={index} value={item.fabric_type}>
+                            {item.fabric_type}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                   <Textarea
                     name="grass_instructions"
                     value={formData.grass_instructions}
@@ -290,7 +444,26 @@ const Instructions = () => {
                 </div>
 
                 <div>
-                  <Label>Grease Instructions</Label>
+                  <div className="my-2 flex items-center justify-between">
+                    <Label>Grease Instructions</Label>
+
+                    <Select
+                      onValueChange={(value: string) =>
+                        handleSelectInstructions('Grease', value)
+                      }
+                    >
+                      <SelectTrigger className="w-[280px]">
+                        <SelectValue placeholder="Use existing instructions" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {instructions.map((item, index) => (
+                          <SelectItem key={index} value={item.fabric_type}>
+                            {item.fabric_type}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                   <Textarea
                     name="grease_instructions"
                     value={formData.grease_instructions}
@@ -301,7 +474,26 @@ const Instructions = () => {
                 </div>
 
                 <div>
-                  <Label>Marker Instructions</Label>
+                  <div className="my-2 flex items-center justify-between">
+                    <Label>Marker Instructions</Label>
+
+                    <Select
+                      onValueChange={(value: string) =>
+                        handleSelectInstructions('Marker', value)
+                      }
+                    >
+                      <SelectTrigger className="w-[280px]">
+                        <SelectValue placeholder="Use existing instructions" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {instructions.map((item, index) => (
+                          <SelectItem key={index} value={item.fabric_type}>
+                            {item.fabric_type}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                   <Textarea
                     name="marker_instructions"
                     value={formData.marker_instructions}
@@ -312,7 +504,26 @@ const Instructions = () => {
                 </div>
 
                 <div>
-                  <Label>Ketchup Instructions</Label>
+                  <div className="my-2 flex items-center justify-between">
+                    <Label>Ketchup Instructions</Label>
+
+                    <Select
+                      onValueChange={(value: string) =>
+                        handleSelectInstructions('Ketchup', value)
+                      }
+                    >
+                      <SelectTrigger className="w-[280px]">
+                        <SelectValue placeholder="Use existing instructions" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {instructions.map((item, index) => (
+                          <SelectItem key={index} value={item.fabric_type}>
+                            {item.fabric_type}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                   <Textarea
                     name="ketchup_instructions"
                     value={formData.ketchup_instructions}
@@ -323,7 +534,26 @@ const Instructions = () => {
                 </div>
 
                 <div>
-                  <Label>Chocolate Instructions</Label>
+                  <div className="my-2 flex items-center justify-between">
+                    <Label>Chocolate Instructions</Label>
+
+                    <Select
+                      onValueChange={(value: string) =>
+                        handleSelectInstructions('Chocolate', value)
+                      }
+                    >
+                      <SelectTrigger className="w-[280px]">
+                        <SelectValue placeholder="Use existing instructions" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {instructions.map((item, index) => (
+                          <SelectItem key={index} value={item.fabric_type}>
+                            {item.fabric_type}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                   <Textarea
                     name="chocolate_instructions"
                     value={formData.chocolate_instructions}
