@@ -55,14 +55,6 @@ interface Contributor {
   day_most_used: string;
 }
 
-interface PopularFabricStains {
-  month: string;
-  fabric: string;
-  fabricValue: number;
-  stain: string;
-  stainValue: number;
-}
-
 interface FabricStainData {
   name: string;
   value: number;
@@ -72,14 +64,14 @@ const Reports = () => {
   const [dataUser, setDataUser] = useState<Users[]>([]);
   // const [data, setData] = useState<Data[]>([]);
   const [contributor, setContributor] = useState({} as Contributor);
-  const [popularFabricStainsData, setPopularFabricStainsData] = useState<
-    PopularFabricStains[]
-  >([]);
+  // const [popularFabricStainsData, setPopularFabricStainsData] = useState<
+  //   PopularFabricStains[]
+  // >([]);
 
   const [fabricData, setFabricData] = useState<FabricStainData[]>([]);
   const [stainData, setStainData] = useState<FabricStainData[]>([]);
   const [monthlyData, setMonthlyData] = useState<MonthlyData[]>([]);
-  const [currentMonth, setCurrentMonth] = useState(
+  const [currentMonth] = useState(
     new Date().toLocaleString('default', { month: 'long' }),
   );
 
@@ -87,18 +79,18 @@ const Reports = () => {
 
   const { isLoading, setLoading } = useLoadingStore();
 
-  const fetchGraphPopularFabricStains = async () => {
-    try {
-      const res = await axios.get(
-        `${import.meta.env.VITE_SERVER_LINK}/graph_popular.php`,
-      );
+  // const fetchGraphPopularFabricStains = async () => {
+  //   try {
+  //     const res = await axios.get(
+  //       `${import.meta.env.VITE_SERVER_LINK}/graph_popular.php`,
+  //     );
 
-      setPopularFabricStainsData(res.data);
-      console.log(res.data, 'res.data');
-    } catch (error) {
-      console.error('Error fetching users:', error);
-    }
-  };
+  //     // setPopularFabricStainsData(res.data);
+  //     console.log(res.data, 'res.data');
+  //   } catch (error) {
+  //     console.error('Error fetching users:', error);
+  //   }
+  // };
 
   const handleSelectMonth = async (month: string) => {
     try {
@@ -198,7 +190,7 @@ const Reports = () => {
       // feetchGraphUsers(),
       fetchContributor(),
       feetchUsers(),
-      fetchGraphPopularFabricStains(),
+      // fetchGraphPopularFabricStains(),
     ]).then(() => {
       setLoading(false);
     });
