@@ -72,7 +72,7 @@ const Reports = () => {
     new Date().toLocaleString('default', { month: 'long' }),
   );
 
-  const { isLoading, setLoading } = useLoadingStore();
+  const { setLoading } = useLoadingStore();
 
   const fetchContributor = async () => {
     try {
