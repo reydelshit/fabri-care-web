@@ -14,6 +14,13 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
   Table,
   TableBody,
   TableCaption,
@@ -26,13 +33,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/components/ui/use-toast';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import Loader from './Loader';
 
 interface StainData {
   id: string;
@@ -47,6 +48,20 @@ interface StainData {
   ketchup_instructions: string;
   chocolate_instructions: string;
 }
+
+interface FormData {
+  fabric_type: string;
+  washing_instructions: string;
+  blood_instructions: string;
+  coffee_instructions: string;
+  grass_instructions: string;
+  grease_instructions: string;
+  marker_instructions: string;
+  ketchup_instructions: string;
+  chocolate_instructions: string;
+}
+
+type InstructionField = keyof Omit<FormData, 'fabric_type'>;
 
 const Instructions = () => {
   // const [fabricType, setFabricType] = useState<string>('');
@@ -68,7 +83,10 @@ const Instructions = () => {
 
   const [itemId, setItemId] = useState<string>('');
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const fetchInstructions = async () => {
+    setIsLoading(true);
     try {
       const res = await axios.get(
         `${import.meta.env.VITE_SERVER_LINK}/instructions.php`,
@@ -78,6 +96,8 @@ const Instructions = () => {
       setInstructions(res.data);
     } catch (error) {
       console.error('Error fetching instructions:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -288,11 +308,16 @@ const Instructions = () => {
   return (
     <div className="w-full">
       <div className="my-2 flex w-full justify-between">
-        <Input
-          placeholder="Search"
-          className="w-[20rem]"
-          onChange={(value) => setSearch(value.target.value)}
-        />
+        <div className="flex gap-4">
+          <Input
+            placeholder="Search"
+            className="h-[3rem] w-[20rem]"
+            onChange={(value) => setSearch(value.target.value)}
+          />
+
+          <p className="my-2 font-semibold">Only shows 5, per page</p>
+        </div>
+
         <Dialog>
           <DialogTrigger>
             <Button className="bg-[#DEAC80] p-2 text-white">
@@ -349,7 +374,7 @@ const Instructions = () => {
                     value={formData.washing_instructions}
                     onChange={handleChange}
                     placeholder="Enter steps here, seperated by \n"
-                    className="min-h-[100px]"
+                    className="min-h-[200px]"
                   />
                 </div>
 
@@ -379,7 +404,7 @@ const Instructions = () => {
                     value={formData.blood_instructions}
                     onChange={handleChange}
                     placeholder="Enter steps here, seperated by \n"
-                    className="min-h-[100px]"
+                    className="min-h-[200px]"
                   />
                 </div>
 
@@ -409,7 +434,7 @@ const Instructions = () => {
                     value={formData.coffee_instructions}
                     onChange={handleChange}
                     placeholder="Enter steps here, seperated by \n"
-                    className="min-h-[100px]"
+                    className="min-h-[200px]"
                   />
                 </div>
 
@@ -439,7 +464,7 @@ const Instructions = () => {
                     value={formData.grass_instructions}
                     onChange={handleChange}
                     placeholder="Enter steps here, seperated by \n"
-                    className="min-h-[100px]"
+                    className="min-h-[200px]"
                   />
                 </div>
 
@@ -469,7 +494,7 @@ const Instructions = () => {
                     value={formData.grease_instructions}
                     onChange={handleChange}
                     placeholder="Enter steps here, seperated by \n"
-                    className="min-h-[100px]"
+                    className="min-h-[200px]"
                   />
                 </div>
 
@@ -499,7 +524,7 @@ const Instructions = () => {
                     value={formData.marker_instructions}
                     onChange={handleChange}
                     placeholder="Enter steps here, seperated by \n"
-                    className="min-h-[100px]"
+                    className="min-h-[200px]"
                   />
                 </div>
 
@@ -529,7 +554,7 @@ const Instructions = () => {
                     value={formData.ketchup_instructions}
                     onChange={handleChange}
                     placeholder="Enter steps here, seperated by \n"
-                    className="min-h-[100px]"
+                    className="min-h-[200px]"
                   />
                 </div>
 
@@ -559,7 +584,7 @@ const Instructions = () => {
                     value={formData.chocolate_instructions}
                     onChange={handleChange}
                     placeholder="Enter steps here, seperated by \n"
-                    className="min-h-[100px]"
+                    className="min-h-[200px]"
                   />
                 </div>
               </div>
@@ -580,385 +605,291 @@ const Instructions = () => {
         </Dialog>
       </div>
 
-      <p className="my-2 font-semibold">Only shows 5, per page</p>
-      <Table>
-        <TableCaption>
-          Stain Removal Instructions for Various Fabrics
-        </TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Fabric Type</TableHead>
-            <TableHead>Stain Type</TableHead>
-            <TableHead>Washing Instructions</TableHead>
-            <TableHead>Blood Instructions</TableHead>
-            <TableHead>Coffee Instructions</TableHead>
-            <TableHead>Grass Instructions</TableHead>
-            <TableHead>Grease Instructions</TableHead>
-            <TableHead>Marker Instructions</TableHead>
-            <TableHead>Ketchup Instructions</TableHead>
-            <TableHead>Chocolate Instructions</TableHead>
-            <TableHead>Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {currentItems.map((item, index) => (
-            <TableRow key={index}>
-              <TableCell>{item.fabric_type}</TableCell>
-              <TableCell>{item.stain_type}</TableCell>
-              <TableCell>
-                {item.washing_instructions?.slice(0, 50) + '...'}
-              </TableCell>
-              <TableCell>
-                {item.blood_instructions?.slice(0, 50) + '...'}
-              </TableCell>
-              <TableCell>
-                {item.coffee_instructions?.slice(0, 50) + '...'}
-              </TableCell>
-              <TableCell>
-                {item.grass_instructions?.slice(0, 50) + '...'}
-              </TableCell>
-              <TableCell>
-                {item.grease_instructions?.slice(0, 50) + '...'}
-              </TableCell>
-              <TableCell>
-                {item.marker_instructions?.slice(0, 50) + '...'}
-              </TableCell>
-              <TableCell>
-                {item.ketchup_instructions?.slice(0, 50) + '...'}
-              </TableCell>
-              <TableCell>
-                {item.chocolate_instructions?.slice(0, 50) + '...'}
-              </TableCell>
+      {isLoading ? (
+        <div className="flex min-h-[400px] items-center">
+          <Loader />
+        </div>
+      ) : (
+        <div className="min-h-[400px]">
+          <Table>
+            <TableCaption>
+              Stain Removal Instructions for Various Fabrics
+            </TableCaption>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Fabric Type</TableHead>
+                <TableHead>Stain Type</TableHead>
+                <TableHead>Washing Instructions</TableHead>
+                <TableHead>Blood Instructions</TableHead>
+                <TableHead>Coffee Instructions</TableHead>
+                <TableHead>Grass Instructions</TableHead>
+                <TableHead>Grease Instructions</TableHead>
+                <TableHead>Marker Instructions</TableHead>
+                <TableHead>Ketchup Instructions</TableHead>
+                <TableHead>Chocolate Instructions</TableHead>
+                <TableHead>Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {currentItems.map((item, index) => (
+                <TableRow key={index}>
+                  <TableCell>{item.fabric_type}</TableCell>
+                  <TableCell>{item.stain_type}</TableCell>
+                  <TableCell>
+                    {item.washing_instructions?.slice(0, 50) + '...'}
+                  </TableCell>
+                  <TableCell>
+                    {item.blood_instructions?.slice(0, 50) + '...'}
+                  </TableCell>
+                  <TableCell>
+                    {item.coffee_instructions?.slice(0, 50) + '...'}
+                  </TableCell>
+                  <TableCell>
+                    {item.grass_instructions?.slice(0, 50) + '...'}
+                  </TableCell>
+                  <TableCell>
+                    {item.grease_instructions?.slice(0, 50) + '...'}
+                  </TableCell>
+                  <TableCell>
+                    {item.marker_instructions?.slice(0, 50) + '...'}
+                  </TableCell>
+                  <TableCell>
+                    {item.ketchup_instructions?.slice(0, 50) + '...'}
+                  </TableCell>
+                  <TableCell>
+                    {item.chocolate_instructions?.slice(0, 50) + '...'}
+                  </TableCell>
 
-              <TableCell>
-                <div className="flex gap-2">
-                  <Dialog>
-                    <DialogTrigger>
-                      <Button
-                        onClick={() => fetchInstructionsByID(item.id)}
-                        className="bg-[#DEAC80] p-2 text-white"
-                      >
-                        View
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="h-[95%] w-[70%]">
-                      <DialogHeader>
-                        <DialogTitle>View instructions</DialogTitle>
-                        <DialogDescription>
-                          Instructions for the different types of stains
-                        </DialogDescription>
-                      </DialogHeader>
-
-                      <form className="overflow-y-scroll">
-                        <div>
-                          <Label>Fabric type:</Label>
-                          <Input value={item.fabric_type} disabled />
-                        </div>
-
-                        <div className="mt-2 grid grid-cols-2 gap-4">
-                          <div>
-                            <Label>Washing Instructions</Label>
-                            <Textarea
-                              name="washing_instructions"
-                              value={formData.washing_instructions}
-                              onChange={handleChange}
-                              placeholder="Enter steps here, seperated by \n"
-                              className="min-h-[400px]"
-                              disabled
-                            />
-                          </div>
-
-                          <div>
-                            <Label>Blood Instructions</Label>
-                            <Textarea
-                              name="blood_instructions"
-                              value={formData.blood_instructions}
-                              onChange={handleChange}
-                              placeholder="Enter steps here, seperated by \n"
-                              className="min-h-[400px]"
-                              disabled
-                            />
-                          </div>
-
-                          <div>
-                            <Label>Coffee Instructions</Label>
-                            <Textarea
-                              name="coffee_instructions"
-                              value={formData.coffee_instructions}
-                              onChange={handleChange}
-                              placeholder="Enter steps here, seperated by \n"
-                              className="min-h-[400px]"
-                              disabled
-                            />
-                          </div>
-
-                          <div>
-                            <Label>Grass Instructions</Label>
-                            <Textarea
-                              name="grass_instructions"
-                              value={formData.grass_instructions}
-                              onChange={handleChange}
-                              placeholder="Enter steps here, seperated by \n"
-                              className="min-h-[400px]"
-                              disabled
-                            />
-                          </div>
-
-                          <div>
-                            <Label>Grease Instructions</Label>
-                            <Textarea
-                              name="grease_instructions"
-                              value={formData.grease_instructions}
-                              onChange={handleChange}
-                              placeholder="Enter steps here, seperated by \n"
-                              className="min-h-[400px]"
-                              disabled
-                            />
-                          </div>
-
-                          <div>
-                            <Label>Marker Instructions</Label>
-                            <Textarea
-                              name="marker_instructions"
-                              value={formData.marker_instructions}
-                              onChange={handleChange}
-                              placeholder="Enter steps here, seperated by \n"
-                              className="min-h-[400px]"
-                              disabled
-                            />
-                          </div>
-
-                          <div>
-                            <Label>Ketchup Instructions</Label>
-                            <Textarea
-                              name="ketchup_instructions"
-                              value={formData.ketchup_instructions}
-                              onChange={handleChange}
-                              placeholder="Enter steps here, seperated by \n"
-                              className="min-h-[400px]"
-                              disabled
-                            />
-                          </div>
-
-                          <div>
-                            <Label>Chocolate Instructions</Label>
-                            <Textarea
-                              name="chocolate_instructions"
-                              value={formData.chocolate_instructions}
-                              onChange={handleChange}
-                              placeholder="Enter steps here, seperated by \n"
-                              className="min-h-[400px]"
-                              disabled
-                            />
-                          </div>
-                        </div>
-                      </form>
-                    </DialogContent>
-                  </Dialog>
-
-                  <Dialog>
-                    <DialogTrigger>
-                      <Button
-                        onClick={() => fetchInstructionsByID(item.id)}
-                        className="bg-[#DEAC80] p-2 text-white"
-                      >
-                        Edit
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="h-[95%] w-[70%]">
-                      <DialogHeader>
-                        <DialogTitle>
-                          Edit the instructions for the different types of
-                          stains
-                        </DialogTitle>
-                        <DialogDescription>
-                          Please edit the instructions for the different types
-                          of stains that can be found on the fabric
-                        </DialogDescription>
-                      </DialogHeader>
-
-                      <form onSubmit={handleSubmitEdit}>
-                        <div>
-                          <Label>Fabric type: </Label>
-
-                          <Input
-                            name="fabric_type"
-                            value={formData.fabric_type}
-                            onChange={handleChange}
-                          />
-                          {/* <Select
-                            onValueChange={(value) => {
-                              console.log(value);
-                              setFabricType(value);
-                            }}
-                          >
-                            <SelectTrigger className="w-[180px]">
-                              <SelectValue placeholder="Select Fabric type" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="Cotton">Cotton</SelectItem>
-                              <SelectItem value="Linen">Linen</SelectItem>
-                              <SelectItem value="Rayon">Rayon</SelectItem>
-                              <SelectItem value="Synthetic">
-                                Synthetic
-                              </SelectItem>
-                              <SelectItem value="Cashmere">Cashmere</SelectItem>
-                              <SelectItem value="Silk">Silk</SelectItem>
-                              <SelectItem value="Wool">Wool</SelectItem>
-                            </SelectContent>
-                          </Select>{' '} */}
-                        </div>
-
-                        <div className="mt-2 grid grid-cols-2 gap-4">
-                          <div>
-                            <Label>Washing Instructions</Label>
-                            <Textarea
-                              name="washing_instructions"
-                              value={formData.washing_instructions}
-                              onChange={handleChange}
-                              placeholder="Enter steps here, seperated by \n"
-                              className="min-h-[100px]"
-                            />
-                          </div>
-
-                          <div>
-                            <Label>Blood Instructions</Label>
-                            <Textarea
-                              name="blood_instructions"
-                              value={formData.blood_instructions}
-                              onChange={handleChange}
-                              placeholder="Enter steps here, seperated by \n"
-                              className="min-h-[100px]"
-                            />
-                          </div>
-
-                          <div>
-                            <Label>Coffee Instructions</Label>
-                            <Textarea
-                              name="coffee_instructions"
-                              value={formData.coffee_instructions}
-                              onChange={handleChange}
-                              placeholder="Enter steps here, seperated by \n"
-                              className="min-h-[100px]"
-                            />
-                          </div>
-
-                          <div>
-                            <Label>Grass Instructions</Label>
-                            <Textarea
-                              name="grass_instructions"
-                              value={formData.grass_instructions}
-                              onChange={handleChange}
-                              placeholder="Enter steps here, seperated by \n"
-                              className="min-h-[100px]"
-                            />
-                          </div>
-
-                          <div>
-                            <Label>Grease Instructions</Label>
-                            <Textarea
-                              name="grease_instructions"
-                              value={formData.grease_instructions}
-                              onChange={handleChange}
-                              placeholder="Enter steps here, seperated by \n"
-                              className="min-h-[100px]"
-                            />
-                          </div>
-
-                          <div>
-                            <Label>Marker Instructions</Label>
-                            <Textarea
-                              name="marker_instructions"
-                              value={formData.marker_instructions}
-                              onChange={handleChange}
-                              placeholder="Enter steps here, seperated by \n"
-                              className="min-h-[100px]"
-                            />
-                          </div>
-
-                          <div>
-                            <Label>Ketchup Instructions</Label>
-                            <Textarea
-                              name="ketchup_instructions"
-                              value={formData.ketchup_instructions}
-                              onChange={handleChange}
-                              placeholder="Enter steps here, seperated by \n"
-                              className="min-h-[100px]"
-                            />
-                          </div>
-
-                          <div>
-                            <Label>Chocolate Instructions</Label>
-                            <Textarea
-                              name="chocolate_instructions"
-                              value={formData.chocolate_instructions}
-                              onChange={handleChange}
-                              placeholder="Enter steps here, seperated by \n"
-                              className="min-h-[100px]"
-                            />
-                          </div>
-                        </div>
-
-                        <div className="mt-4 inline-flex w-full justify-end self-end">
-                          <DialogClose>
-                            <Button
-                              type="submit"
-                              className="rounded-md bg-[#DEAC80] p-2 text-white"
-                            >
-                              Update
-                            </Button>
-                          </DialogClose>
-                        </div>
-                      </form>
-                    </DialogContent>
-                  </Dialog>
-
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button
-                        onClick={() => setItemId(item.id)}
-                        variant="destructive"
-                        size="sm"
-                      >
-                        Delete
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="w-[30%]">
-                      <DialogHeader>
-                        <DialogTitle>
-                          Are you sure you want to delete this item?
-                        </DialogTitle>
-                        <DialogDescription>
-                          This action cannot be undone. This will permanently
-                          delete the item.
-                        </DialogDescription>
-                      </DialogHeader>
-                      <DialogFooter>
-                        <DialogClose>
+                  <TableCell>
+                    <div className="flex gap-2">
+                      <Dialog>
+                        <DialogTrigger>
                           <Button
-                            variant="outline"
-                            onClick={() => setItemId('')}
+                            onClick={() => fetchInstructionsByID(item.id)}
+                            className="bg-[#DEAC80] p-2 text-white transition-colors hover:bg-[#c49872]"
                           >
-                            Cancel
-                          </Button>{' '}
-                        </DialogClose>
-                        <DialogClose>
+                            View
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="h-[95vh] w-[90%] max-w-[1200px]">
+                          <DialogHeader className="mb-4">
+                            <DialogTitle className="text-xl font-semibold">
+                              View Instructions
+                            </DialogTitle>
+                            <DialogDescription className="text-gray-600">
+                              Instructions for the different types of stains
+                            </DialogDescription>
+                          </DialogHeader>
+
+                          <div className="max-h-[calc(95vh-120px)] overflow-y-auto">
+                            <div className="mb-4">
+                              <Label className="mb-1 text-sm font-medium">
+                                Fabric type:
+                              </Label>
+                              <Input
+                                value={item.fabric_type}
+                                disabled
+                                className="bg-gray-50"
+                              />
+                            </div>
+
+                            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                              {[
+                                {
+                                  label: 'Washing Instructions',
+                                  value: item.washing_instructions,
+                                },
+                                {
+                                  label: 'Blood Instructions',
+                                  value: item.blood_instructions,
+                                },
+                                {
+                                  label: 'Coffee Instructions',
+                                  value: item.coffee_instructions,
+                                },
+                                {
+                                  label: 'Grass Instructions',
+                                  value: item.grass_instructions,
+                                },
+                                {
+                                  label: 'Grease Instructions',
+                                  value: item.grease_instructions,
+                                },
+                                {
+                                  label: 'Marker Instructions',
+                                  value: item.marker_instructions,
+                                },
+                                {
+                                  label: 'Ketchup Instructions',
+                                  value: item.ketchup_instructions,
+                                },
+                                {
+                                  label: 'Chocolate Instructions',
+                                  value: item.chocolate_instructions,
+                                },
+                              ].map((instruction, index) => (
+                                <div key={index} className="space-y-2">
+                                  <Label className="text-lg font-medium">
+                                    {instruction.label}
+                                  </Label>
+                                  <div className="min-h-[400px] overflow-y-auto whitespace-pre-wrap rounded-lg border border-gray-200 bg-gray-50 p-4">
+                                    {instruction.value}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
+
+                      <Dialog>
+                        <DialogTrigger>
                           <Button
+                            onClick={() => fetchInstructionsByID(item.id)}
+                            className="bg-[#DEAC80] p-2 text-white hover:bg-[#c49872]"
+                          >
+                            Edit
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-h-[85vh] w-[85%] max-w-[1200px]">
+                          <DialogHeader>
+                            <DialogTitle className="text-xl">
+                              Edit the instructions for the different types of
+                              stains
+                            </DialogTitle>
+                            <DialogDescription className="text-sm text-gray-500">
+                              Please edit the instructions for the different
+                              types of stains that can be found on the fabric
+                            </DialogDescription>
+                          </DialogHeader>
+
+                          <form onSubmit={handleSubmitEdit} className="mt-4">
+                            <div className="max-h-[calc(85vh-200px)] overflow-y-auto pr-4">
+                              <div className="mb-6">
+                                <Label className="text-sm font-medium">
+                                  Fabric type:{' '}
+                                </Label>
+                                <Input
+                                  name="fabric_type"
+                                  value={formData.fabric_type}
+                                  onChange={handleChange}
+                                  className="mt-1"
+                                />
+                              </div>
+
+                              <div className="grid grid-cols-2 gap-6">
+                                {[
+                                  {
+                                    label: 'Washing Instructions',
+                                    name: 'washing_instructions' as InstructionField,
+                                  },
+                                  {
+                                    label: 'Blood Instructions',
+                                    name: 'blood_instructions' as InstructionField,
+                                  },
+                                  {
+                                    label: 'Coffee Instructions',
+                                    name: 'coffee_instructions' as InstructionField,
+                                  },
+                                  {
+                                    label: 'Grass Instructions',
+                                    name: 'grass_instructions' as InstructionField,
+                                  },
+                                  {
+                                    label: 'Grease Instructions',
+                                    name: 'grease_instructions' as InstructionField,
+                                  },
+                                  {
+                                    label: 'Marker Instructions',
+                                    name: 'marker_instructions' as InstructionField,
+                                  },
+                                  {
+                                    label: 'Ketchup Instructions',
+                                    name: 'ketchup_instructions' as InstructionField,
+                                  },
+                                  {
+                                    label: 'Chocolate Instructions',
+                                    name: 'chocolate_instructions' as InstructionField,
+                                  },
+                                ].map((field) => (
+                                  <div key={field.name} className="space-y-2">
+                                    <Label className="text-sm font-medium">
+                                      {field.label}
+                                    </Label>
+                                    <Textarea
+                                      name={field.name}
+                                      value={formData[field.name]}
+                                      onChange={handleChange}
+                                      placeholder="Enter steps here, separated by \n"
+                                      className="min-h-[180px] resize-none"
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+
+                            <div className="mt-6 flex justify-end border-t pt-4">
+                              <DialogClose>
+                                <Button
+                                  type="submit"
+                                  className="rounded-md bg-[#DEAC80] px-4 py-2 text-white hover:bg-[#c49872]"
+                                >
+                                  Update
+                                </Button>
+                              </DialogClose>
+                            </div>
+                          </form>
+                        </DialogContent>
+                      </Dialog>
+
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button
+                            onClick={() => setItemId(item.id)}
                             variant="destructive"
-                            onClick={handleConfirmDelete}
+                            size="sm"
                           >
                             Delete
-                          </Button>{' '}
-                        </DialogClose>
-                      </DialogFooter>
-                    </DialogContent>
-                  </Dialog>
-                </div>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="w-[30%]">
+                          <DialogHeader>
+                            <DialogTitle>
+                              Are you sure you want to delete this item?
+                            </DialogTitle>
+                            <DialogDescription>
+                              This action cannot be undone. This will
+                              permanently delete the item.
+                            </DialogDescription>
+                          </DialogHeader>
+                          <DialogFooter>
+                            <DialogClose>
+                              <Button
+                                variant="outline"
+                                onClick={() => setItemId('')}
+                              >
+                                Cancel
+                              </Button>{' '}
+                            </DialogClose>
+                            <DialogClose>
+                              <Button
+                                variant="destructive"
+                                onClick={handleConfirmDelete}
+                              >
+                                Delete
+                              </Button>{' '}
+                            </DialogClose>
+                          </DialogFooter>
+                        </DialogContent>
+                      </Dialog>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      )}
 
       <PaginationTemplate
         totalPages={totalPages}
