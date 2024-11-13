@@ -197,10 +197,10 @@ const Reports = () => {
       };
 
       const [resFabric, resStain, uploadHistory] = await Promise.all([
-        axios.get(`${import.meta.env.VITE_SERVER_LINK}/graphFabric.php`, {
+        axios.get(`${import.meta.env.VITE_SERVER_LINK}/graphFabric2.php`, {
           params,
         }),
-        axios.get(`${import.meta.env.VITE_SERVER_LINK}/graphStain.php`, {
+        axios.get(`${import.meta.env.VITE_SERVER_LINK}/graphStain2.php`, {
           params,
         }),
         axios.get(`${import.meta.env.VITE_SERVER_LINK}/uploadHistory.php`, {

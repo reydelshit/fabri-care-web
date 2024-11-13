@@ -1,9 +1,9 @@
 import Header from '@/components/Header';
 import { Toaster } from '@/components/ui/toaster';
-import Reports from '@/pages/Reports';
+import { useEffect } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import Footer from './Footer';
-import { useEffect } from 'react';
+import NewReport from './NewReport';
 
 const Root = () => {
   const params = useLocation();
@@ -63,7 +63,7 @@ const Root = () => {
 
       <div className="flex h-full w-full items-start justify-center">
         <div className="mt-2 block h-fit w-full rounded-xl p-4">
-          {params.pathname === '/' ? <Reports /> : <Outlet />}
+          {params.pathname === '/' ? <NewReport /> : <Outlet />}
         </div>
       </div>
 

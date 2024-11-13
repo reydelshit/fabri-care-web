@@ -9,6 +9,7 @@ import Root from './pages/Root.tsx';
 import Users from './pages/Users.tsx';
 import Instructions from './pages/Instructions.tsx';
 import { Toaster } from './components/ui/toaster.tsx';
+import NewReport from './pages/NewReport.tsx';
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,11 @@ const router = createBrowserRouter([
       {
         path: 'feedbacks',
         element: <Feedbacks />,
+      },
+
+      {
+        path: 'new-reports',
+        element: <NewReport />,
       },
       {
         path: 'users',
