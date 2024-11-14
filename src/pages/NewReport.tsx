@@ -258,7 +258,7 @@ const NewReport = () => {
 
   return (
     <div className="h-fit w-full">
-      <div className="mb-[1rem] mt-[-1rem] flex w-full justify-between">
+      <div className="mb-[1rem] mt-[-1rem] flex w-full justify-end gap-4">
         <div>
           <Label>Start Date:</Label>
           <Input
