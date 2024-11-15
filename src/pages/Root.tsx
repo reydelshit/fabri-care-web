@@ -2,7 +2,6 @@ import Header from '@/components/Header';
 import { Toaster } from '@/components/ui/toaster';
 import { useEffect } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import Footer from './Footer';
 import NewReport from './NewReport';
 
 const Root = () => {
@@ -68,7 +67,7 @@ const Root = () => {
       </div>
 
       <Toaster />
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

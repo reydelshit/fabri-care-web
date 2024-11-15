@@ -258,7 +258,7 @@ const NewReport = () => {
 
   return (
     <div className="h-fit w-full">
-      <div className="mb-[1rem] mt-[-1rem] flex w-full justify-end gap-4">
+      <div className="mb-[1rem] mt-[-1rem] flex w-full justify-start gap-4">
         <div>
           <Label>Start Date:</Label>
           <Input
@@ -420,7 +420,7 @@ const NewReport = () => {
         </div>
       </div>
 
-      <div className="mt-[2rem] flex w-full gap-4 border-2">
+      <div className="mt-[2rem] flex w-full gap-4 rounded-md border-2 shadow-sm">
         <div className="w-full rounded bg-white p-4 shadow-md">
           <div className="text-lg font-bold">
             Fabric Distribution{' '}
