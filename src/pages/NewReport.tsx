@@ -323,42 +323,46 @@ const NewReport = () => {
           <div className="w-full">
             <h1 className="font-bold">Top Popular Instructions (Fabric): </h1>
             {topPopularFabrics.length > 0 ? (
-              topPopularFabrics.map((fabric, index) => (
-                <div
-                  className="my-2 gap-2 rounded-md border-2 p-2 shadow-sm"
-                  key={index}
-                >
-                  <span>Top: {index + 1}</span>
+              topPopularFabrics
+                .map((fabric, index) => (
+                  <div
+                    className="my-2 gap-2 rounded-md border-2 p-2 shadow-sm"
+                    key={index}
+                  >
+                    <span>Top: {index + 1}</span>
 
-                  <h1 className="font-bold">{fabric.fabric}</h1>
-                  <p>
-                    {fabric.washing_instructions.slice(
-                      0,
-                      Math.min(fabric.washing_instructions.length, 100),
-                    )}{' '}
-                    ...
-                    <Dialog>
-                      <DialogTrigger>
-                        <span className="text-sm text-blue-500">Read more</span>
-                      </DialogTrigger>
-                      <DialogContent className="h-fit w-[90%] max-w-[1200px]">
-                        <DialogHeader className="mb-4">
-                          <DialogTitle className="text-xl font-semibold">
-                            Read More about {fabric.fabric}
-                          </DialogTitle>
-                          <DialogDescription className="text-gray-600">
-                            Instructions for washing {fabric.fabric}
-                          </DialogDescription>
-                        </DialogHeader>
+                    <h1 className="font-bold">{fabric.fabric}</h1>
+                    <p>
+                      {fabric.washing_instructions.slice(
+                        0,
+                        Math.min(fabric.washing_instructions.length, 100),
+                      )}{' '}
+                      ...
+                      <Dialog>
+                        <DialogTrigger>
+                          <span className="text-sm text-blue-500">
+                            Read more
+                          </span>
+                        </DialogTrigger>
+                        <DialogContent className="h-fit w-[90%] max-w-[1200px]">
+                          <DialogHeader className="mb-4">
+                            <DialogTitle className="text-xl font-semibold">
+                              Read More about {fabric.fabric}
+                            </DialogTitle>
+                            <DialogDescription className="text-gray-600">
+                              Instructions for washing {fabric.fabric}
+                            </DialogDescription>
+                          </DialogHeader>
 
-                        <p className="whitespace-pre-line">
-                          {fabric.washing_instructions}
-                        </p>
-                      </DialogContent>
-                    </Dialog>
-                  </p>
-                </div>
-              ))
+                          <p className="whitespace-pre-line">
+                            {fabric.washing_instructions}
+                          </p>
+                        </DialogContent>
+                      </Dialog>
+                    </p>
+                  </div>
+                ))
+                .slice(0, 3)
             ) : (
               <div className="my-2 flex h-full items-center justify-center gap-2 rounded-md border-2 p-2">
                 No data
@@ -370,47 +374,51 @@ const NewReport = () => {
             <h1 className="font-bold">Top Popular Instructions (Stains): </h1>
 
             {topPopularStains.length > 0 ? (
-              topPopularStains.map((stain, index) => (
-                <div
-                  className="my-2 gap-2 rounded-md border-2 p-2 shadow-sm"
-                  key={index}
-                >
-                  <span>Top: {index + 1}</span>
-                  <h1 className="font-bold">
-                    {stain.fabric_type.charAt(0).toUpperCase() +
-                      stain.fabric_type.slice(1)}{' '}
-                    -{' '}
-                    {stain.stain_type.charAt(0).toUpperCase() +
-                      stain.stain_type.slice(1)}
-                  </h1>
-                  <p>
-                    {stain.specific_instructions.slice(
-                      0,
-                      Math.min(stain.specific_instructions.length, 100),
-                    )}
-                    ...
-                    <Dialog>
-                      <DialogTrigger>
-                        <span className="text-sm text-blue-500">Read more</span>
-                      </DialogTrigger>
-                      <DialogContent className="h-fit w-[90%] max-w-[1200px]">
-                        <DialogHeader className="mb-4">
-                          <DialogTitle className="text-xl font-semibold">
-                            Read More about {stain.stain_type}
-                          </DialogTitle>
-                          <DialogDescription className="text-gray-600">
-                            Instructions for stain {stain.stain_type}
-                          </DialogDescription>
-                        </DialogHeader>
+              topPopularStains
+                .map((stain, index) => (
+                  <div
+                    className="my-2 gap-2 rounded-md border-2 p-2 shadow-sm"
+                    key={index}
+                  >
+                    <span>Top: {index + 1}</span>
+                    <h1 className="font-bold">
+                      {stain.fabric_type.charAt(0).toUpperCase() +
+                        stain.fabric_type.slice(1)}{' '}
+                      -{' '}
+                      {stain.stain_type.charAt(0).toUpperCase() +
+                        stain.stain_type.slice(1)}
+                    </h1>
+                    <p>
+                      {stain.specific_instructions.slice(
+                        0,
+                        Math.min(stain.specific_instructions.length, 100),
+                      )}
+                      ...
+                      <Dialog>
+                        <DialogTrigger>
+                          <span className="text-sm text-blue-500">
+                            Read more
+                          </span>
+                        </DialogTrigger>
+                        <DialogContent className="h-fit w-[90%] max-w-[1200px]">
+                          <DialogHeader className="mb-4">
+                            <DialogTitle className="text-xl font-semibold">
+                              Read More about {stain.stain_type}
+                            </DialogTitle>
+                            <DialogDescription className="text-gray-600">
+                              Instructions for stain {stain.stain_type}
+                            </DialogDescription>
+                          </DialogHeader>
 
-                        <p className="whitespace-pre-line">
-                          {stain.specific_instructions}
-                        </p>
-                      </DialogContent>
-                    </Dialog>
-                  </p>
-                </div>
-              ))
+                          <p className="whitespace-pre-line">
+                            {stain.specific_instructions}
+                          </p>
+                        </DialogContent>
+                      </Dialog>
+                    </p>
+                  </div>
+                ))
+                .slice(0, 3)
             ) : (
               <div className="my-2 flex h-full items-center justify-center gap-2 rounded-md border-2 p-2">
                 No data
